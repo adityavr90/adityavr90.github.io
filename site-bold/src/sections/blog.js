@@ -10,7 +10,7 @@ export function initBlog(cv) {
     <h2 class="section-title reveal">INTEL <span>REPORTS</span></h2>
     <div class="section-divider reveal"></div>
     ${isEmpty
-      ? `<p class="reveal t-output" style="font-family:var(--mono)">// NO INTEL REPORTS FILED YET</p>`
+      ? `<p class="reveal t-output" style="font-family:var(--mono)">[REPORTS PENDING DECLASSIFICATION]</p>`
       : `<div class="blog-bold-list">
           ${cv.blog.map(b => `
             <a href="${b.link}" class="blog-bold-item reveal" target="_blank" rel="noopener">
