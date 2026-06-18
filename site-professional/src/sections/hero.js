@@ -73,18 +73,18 @@ export function initHero(cv) {
   }
   animate();
 
-  // Pause when hidden
-  document.addEventListener('visibilitychange', () => {
+  // Store handler references for potential cleanup
+  const visibilityHandler = () => {
     if (document.hidden) cancelAnimationFrame(frameId);
     else animate();
-  });
+  };
+  document.addEventListener('visibilitychange', visibilityHandler);
 
-  // Stop when hero leaves viewport
-  const observer = new IntersectionObserver(([entry]) => {
+  const heroObserver = new IntersectionObserver(([entry]) => {
     if (!entry.isIntersecting) cancelAnimationFrame(frameId);
     else animate();
   }, { threshold: 0 });
-  observer.observe(document.getElementById('hero'));
+  heroObserver.observe(document.getElementById('hero'));
 
   // Resize
   window.addEventListener('resize', () => {
@@ -94,7 +94,12 @@ export function initHero(cv) {
   });
 
   // ── GSAP entrance sequence ───────────────────────────────────────
-  const tl = gsap.timeline({ delay: 0.3 });
+  const animated = '.hero-eyebrow, .hero-name, .hero-title, .hero-actions';
+  const tl = gsap.timeline({
+    delay: 0.3,
+    onStart: () => gsap.set(animated, { willChange: 'transform, opacity' }),
+    onComplete: () => gsap.set(animated, { willChange: 'auto' })
+  });
   tl.to('.hero-eyebrow', { opacity: 1, duration: 0.6, ease: 'power2.out' })
     .to('.hero-name',    { opacity: 1, duration: 0.01 }, '-=0.2')
     .to(nameEl, { duration: 1.2, text: cv.name, ease: 'none' })
