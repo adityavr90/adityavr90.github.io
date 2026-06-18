@@ -26,6 +26,8 @@ function latLngToVec3(lat, lng, r) {
 export function initHero(cv) {
   const canvas = document.getElementById('hero-canvas');
   const nameEl = document.querySelector('.hero-name');
+  const subtitleEl = document.querySelector('.hero-subtitle');
+  subtitleEl.textContent = cv.subtitle;
 
   // ── Three.js ────────────────────────────────────────────────────
   const scene = new THREE.Scene();
