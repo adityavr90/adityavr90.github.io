@@ -31,7 +31,9 @@ export function initAbout(cv) {
   gsap.utils.toArray('#about .reveal').forEach(el => {
     gsap.fromTo(el, { opacity: 0, y: 32 }, {
       opacity: 1, y: 0, duration: 0.7, ease: 'power2.out',
-      scrollTrigger: { trigger: el, start: 'top 85%' }
+      scrollTrigger: { trigger: el, start: 'top 85%' },
+      onStart: () => gsap.set(el, { willChange: 'transform, opacity' }),
+      onComplete: () => gsap.set(el, { willChange: 'auto' })
     });
   });
 
@@ -44,9 +46,11 @@ export function initAbout(cv) {
       start: 'top 80%',
       once: true,
       onEnter: () => {
+        gsap.set(el, { willChange: 'transform' });
         gsap.to({ val: 0 }, {
           val: target, duration: 1.8, ease: 'power2.out',
-          onUpdate: function() { el.textContent = Math.round(this.targets()[0].val) + suffix; }
+          onUpdate: function() { el.textContent = Math.round(this.targets()[0].val) + suffix; },
+          onComplete: () => gsap.set(el, { willChange: 'auto' })
         });
       }
     });
