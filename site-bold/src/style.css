@@ -127,3 +127,44 @@ h2.section-title span { color: var(--green); }
   20% { clip-path: inset(60% 0 20% 0); transform: translate(4px, -2px); }
   30% { clip-path: inset(0 0 100% 0); transform: translate(0); }
 }
+
+/* ── Terminal (About) ─────────────────────────────────────────────────── */
+.terminal-window { background: #0A0A0A; border: 1px solid rgba(0,255,65,0.3); border-radius: 6px; overflow: hidden; max-width: 800px; }
+.terminal-bar { background: #1A1A1A; padding: 0.75rem 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.t-dot { width: 12px; height: 12px; border-radius: 50%; }
+.t-dot.red { background: #FF5F57; }
+.t-dot.yellow { background: #FEBC2E; }
+.t-dot.green { background: #28C840; }
+.t-title { font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); margin-left: 0.5rem; }
+.terminal-body { padding: 1.5rem; font-family: var(--mono); font-size: 0.88rem; line-height: 1.8; }
+.t-line { margin-bottom: 0.25rem; }
+.t-prompt { color: var(--green); }
+.t-cmd { color: var(--text); }
+.t-output { color: #AAAAAA; padding-left: 1rem; }
+.t-confirmed { color: var(--green); font-weight: 700; }
+.t-cursor { color: var(--green); animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* ── Skills Bold ──────────────────────────────────────────────────────── */
+.skills-bold-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+@media (max-width: 768px) { .skills-bold-grid { grid-template-columns: 1fr; gap: 2rem; } }
+.skill-bar-item { margin-bottom: 1.25rem; }
+.skill-bar-label { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.8rem; margin-bottom: 0.4rem; color: var(--text-muted); }
+.skill-bar-pct { color: var(--green); }
+.skill-bar-track { height: 3px; background: #1A1A1A; border-radius: 2px; overflow: hidden; }
+.skill-bar-fill { height: 100%; background: var(--green); width: 0%; box-shadow: 0 0 8px var(--green); }
+.tools-label { font-family: var(--mono); font-size: 0.85rem; color: var(--green); margin-bottom: 0.75rem; }
+.standards-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.bold-pill { font-family: var(--mono); font-size: 0.75rem; border: 1px solid rgba(0,255,65,0.4); color: var(--green); padding: 0.25rem 0.6rem; background: var(--green-dim); }
+
+/* ── Experience Case Files ────────────────────────────────────────────── */
+.exp-track { display: flex; flex-direction: column; gap: 2rem; }
+.exp-card { background: var(--surface); border: 1px solid rgba(0,255,65,0.15); padding: 2rem; position: relative; }
+.exp-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--green); }
+.exp-card-header { display: flex; justify-content: space-between; margin-bottom: 0.75rem; }
+.exp-tag { font-family: var(--mono); font-size: 0.75rem; color: var(--green); letter-spacing: 0.1em; }
+.exp-period { font-family: var(--mono); font-size: 0.75rem; color: var(--text-muted); }
+.exp-title { font-size: 1.2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.25rem; }
+.exp-company { font-family: var(--mono); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.25rem; }
+.exp-highlights { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.exp-highlights li { font-size: 0.88rem; color: #AAAAAA; padding-left: 1.5rem; position: relative; }
