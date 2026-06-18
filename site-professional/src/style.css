@@ -137,3 +137,13 @@ h2.section-title span { color: var(--accent); }
 .stat-card { text-align: center; }
 .stat-value { display: block; font-size: 2.5rem; font-weight: 800; color: var(--accent); line-height: 1; }
 .stat-label { font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; }
+
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; }
+.skill-card { background: var(--surface); border: 1px solid rgba(0,212,255,0.1); border-radius: var(--radius); padding: 2rem; transition: var(--transition); }
+.skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+.skill-card-title { font-size: 1rem; font-weight: 700; color: var(--accent); margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.skill-list { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.skill-list li { color: var(--text-muted); padding-left: 1rem; position: relative; }
+.skill-list li::before { content: '▸'; position: absolute; left: 0; color: var(--accent); }
+.skill-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pill { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(0,212,255,0.3); border-radius: 999px; padding: 0.3rem 0.85rem; font-size: 0.8rem; font-weight: 600; }
