@@ -30,6 +30,8 @@ section { padding: 6rem 0; }
 #hero {
   position: relative;
   height: 100vh;
+  height: 100svh; /* mobile: excludes the browser URL bar */
+  min-height: 34rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -75,7 +77,7 @@ section { padding: 6rem 0; }
   opacity: 0;
 }
 
-.hero-actions { display: flex; gap: 1rem; justify-content: center; opacity: 0; }
+.hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; opacity: 0; }
 
 .btn {
   display: inline-block;
@@ -112,6 +114,29 @@ section { padding: 6rem 0; }
 .nav-links a { color: var(--text-muted); text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
 .nav-links a:hover { color: var(--accent); }
 .nav-cta { color: var(--accent) !important; border: 1px solid var(--accent); padding: 0.4rem 1rem; border-radius: 4px; }
+
+/* Hamburger toggle — hidden on desktop, shown at <=820px */
+.nav-toggle {
+  display: none;
+  width: 44px; height: 44px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  position: relative;
+  z-index: 201;
+}
+.nav-toggle span {
+  display: block;
+  width: 24px; height: 2px;
+  margin: 5px auto;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 h2.section-title {
   font-size: clamp(1.8rem, 4vw, 2.5rem);
@@ -206,3 +231,112 @@ h2.section-title span { color: var(--accent); }
 
 /* Footer spacing */
 #contact { padding-bottom: 8rem; }
+
+/* ══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── Tablet / small laptop ─────────────────────────────────── */
+@media (max-width: 900px) {
+  body { font-size: 17px; }
+  section { padding: 4.5rem 0; }
+  .container { padding: 0 1.5rem; }
+
+  /* 280px + 4rem gap doesn't fit — stack it */
+  .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+
+/* ── Mobile nav breakpoint ─────────────────────────────────── */
+@media (max-width: 820px) {
+  .nav-toggle { display: block; }
+
+  .nav-links {
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.75rem;
+    background: rgba(10, 14, 26, 0.97);
+    backdrop-filter: blur(16px);
+    transform: translateX(100%);
+    transition: transform var(--transition);
+    z-index: 200;
+  }
+  .nav-links.open { transform: translateX(0); }
+
+  /* Bigger tap targets in the overlay */
+  .nav-links a {
+    font-size: 1.15rem;
+    padding: 0.5rem 1rem;
+    display: block;
+  }
+  .nav-cta { padding: 0.6rem 1.75rem; }
+
+  /* Stop background scroll while the menu is open */
+  body.nav-open { overflow: hidden; }
+}
+
+/* ── Phone ─────────────────────────────────────────────────── */
+@media (max-width: 600px) {
+  body { font-size: 16px; line-height: 1.65; }
+  section { padding: 3.5rem 0; }
+  .container { padding: 0 1.25rem; }
+  #nav { padding: 0.85rem 1.25rem; }
+
+  .hero-content { padding: 0 1.25rem; }
+  .hero-title { margin-bottom: 2rem; }
+
+  /* Buttons go full width and stack rather than squeezing */
+  .hero-actions { flex-direction: column; width: 100%; }
+  .hero-actions .btn { width: 100%; text-align: center; padding: 0.9rem 1.5rem; }
+
+  .section-divider { margin-bottom: 2rem; }
+
+  /* Avatar scales down and centres */
+  .avatar-ring { width: 150px; height: 150px; margin: 0 auto; }
+  .about-stats { gap: 1.5rem; justify-content: space-between; }
+  .stat-value { font-size: 2rem; }
+
+  /* Grids: minmax(300px) is wider than the viewport, force one column */
+  .skills-grid,
+  .projects-grid,
+  .certs-grid { grid-template-columns: 1fr; gap: 1rem; }
+  .skill-card { padding: 1.5rem; }
+
+  /* Tighten the timeline so cards get more room */
+  .timeline { padding-left: 1.5rem; }
+  .timeline-dot { left: -1.9rem; width: 12px; height: 12px; }
+  .timeline-item { margin-bottom: 2.5rem; }
+  .timeline-card { padding: 1.25rem 1.25rem; }
+  .timeline-meta { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+
+  .blog-item { padding: 1.25rem 1.25rem; }
+  .blog-meta { flex-wrap: wrap; gap: 0.5rem; }
+
+  /* 16px prevents iOS Safari from zooming in on focus */
+  .contact-form input,
+  .contact-form textarea { font-size: 16px; }
+
+  #contact { padding-bottom: 4rem; }
+}
+
+/* ── Touch devices: kill sticky hover states ───────────────── */
+@media (hover: none) {
+  .skill-card:hover,
+  .project-card:hover,
+  .blog-item:hover,
+  .btn-primary:hover,
+  .btn-ghost:hover { transform: none; }
+}
+
+/* ── Respect reduced-motion preference ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}

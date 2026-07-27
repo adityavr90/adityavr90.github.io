@@ -1,4 +1,5 @@
 import { cv } from '@shared/cv-data.js';
+import { initNav } from './sections/nav.js';
 import { initHero } from './sections/hero.js';
 import { initAbout } from './sections/about.js';
 import { initSkills } from './sections/skills.js';
@@ -9,6 +10,7 @@ import { initBlog } from './sections/blog.js';
 import { initContact } from './sections/contact.js';
 
 document.addEventListener('DOMContentLoaded', () => {
+  initNav();
   initHero(cv);
   initAbout(cv);
   initSkills(cv);
