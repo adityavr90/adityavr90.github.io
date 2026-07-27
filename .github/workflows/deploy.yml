@@ -5,6 +5,11 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Which site directory gets deployed. Change this one value to switch
+# between site-c, site-professional and site-bold.
+env:
+  SITE_DIR: site-c
+
 permissions:
   contents: read
   pages: write
@@ -19,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: site-professional
+        working-directory: ${{ env.SITE_DIR }}
     steps:
       - uses: actions/checkout@v4
 
@@ -27,7 +32,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: site-professional/package-lock.json
+          cache-dependency-path: ${{ env.SITE_DIR }}/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -35,10 +40,18 @@ jobs:
       - name: Build
         run: npm run build
 
+      # The custom domain lives in <site>/public/CNAME so it lands in dist/.
+      # Pages serves the uploaded artifact, not the branch, so a CNAME at the
+      # repo root would be ignored and avrgk.com would break.
+      - name: Verify CNAME survived the build
+        run: |
+          test -f dist/CNAME || { echo "::error::dist/CNAME missing — custom domain would break"; exit 1; }
+          echo "CNAME -> $(cat dist/CNAME)"
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site-professional/dist
+          path: ${{ env.SITE_DIR }}/dist
 
   deploy:
     needs: build
