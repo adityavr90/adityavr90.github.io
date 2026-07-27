@@ -1,135 +1,137 @@
-import * as THREE from 'three';
 import gsap from 'gsap';
 import { TextPlugin } from 'gsap/TextPlugin';
 
 gsap.registerPlugin(TextPlugin);
 
+/**
+ * Particle-network hero background.
+ *
+ * Previously drawn with Three.js, which pulled ~1.3 MB of source (about
+ * 170 kB gzipped) into the bundle to render dots and lines on a flat
+ * plane — nothing in the scene ever used the third dimension. This is the
+ * same effect in plain Canvas 2D at a fraction of the weight.
+ */
 export function initHero(cv) {
   const canvas = document.getElementById('hero-canvas');
   const heroEl = document.getElementById('hero');
   const nameEl = document.querySelector('.hero-name');
   const titleEl = document.querySelector('.hero-title');
+  const ctx = canvas.getContext('2d');
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isMobile = window.matchMedia('(max-width: 820px)').matches;
 
-  // ── Sizing helpers ───────────────────────────────────────────────
-  // Measure the canvas, not the window: with `100svh` the hero is shorter
-  // than window.innerHeight on mobile, and using the window stretches the scene.
-  const size = () => ({
-    w: canvas.clientWidth || window.innerWidth,
-    h: canvas.clientHeight || window.innerHeight
-  });
+  const ACCENT = '0, 212, 255';
+  let w = 0, h = 0, dpr = 1;
+  let particles = [];
+  let linkDist = 130;
 
-  // ── Three.js setup ───────────────────────────────────────────────
-  const initial = size();
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(60, initial.w / initial.h, 0.1, 1000);
-  camera.position.z = 80;
+  // ── Sizing ───────────────────────────────────────────────────────
+  function resize() {
+    // Measure the canvas, not the window: the hero uses 100svh, which is
+    // shorter than window.innerHeight while the mobile URL bar is showing.
+    w = canvas.clientWidth || window.innerWidth;
+    h = canvas.clientHeight || window.innerHeight;
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
 
-  const renderer = new THREE.WebGLRenderer({
-    canvas,
-    antialias: !isMobile,          // MSAA is expensive on mobile GPUs
-    alpha: true,
-    powerPreference: 'low-power'
-  });
-  renderer.setSize(initial.w, initial.h, false);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobile ? 1.5 : 2));
+    canvas.width = Math.round(w * dpr);
+    canvas.height = Math.round(h * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);   // draw in CSS pixels
 
-  // Fewer nodes on phones: link-building is O(n²), so halving the count
-  // cuts the per-frame work to roughly a quarter.
-  const COUNT = isMobile ? 55 : 120;
-  const LINK_DIST_SQ = 28 * 28;
+    // Density scales with area so phones don't get a dense mesh and
+    // desktops don't get a sparse one. Clamped at both ends.
+    const target = Math.round((w * h) / 14000);
+    const count = Math.max(28, Math.min(target, 110));
+    linkDist = w < 700 ? 95 : 130;
 
-  const positions = new Float32Array(COUNT * 3);
-  const velocities = [];
-  for (let i = 0; i < COUNT; i++) {
-    positions[i * 3]     = (Math.random() - 0.5) * 160;
-    positions[i * 3 + 1] = (Math.random() - 0.5) * 100;
-    positions[i * 3 + 2] = (Math.random() - 0.5) * 30;
-    velocities.push({ x: (Math.random() - 0.5) * 0.04, y: (Math.random() - 0.5) * 0.04 });
+    seed(count);
   }
 
-  const geo = new THREE.BufferGeometry();
-  geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const dots = new THREE.Points(
-    geo,
-    new THREE.PointsMaterial({ color: 0x00D4FF, size: 0.7, transparent: true, opacity: 0.8 })
-  );
-  scene.add(dots);
+  function seed(count) {
+    const prev = particles;
+    particles = [];
+    for (let i = 0; i < count; i++) {
+      // Keep existing particles on resize so the mesh doesn't visibly
+      // reshuffle when the mobile URL bar hides.
+      if (prev[i] && prev[i].x < w && prev[i].y < h) {
+        particles.push(prev[i]);
+      } else {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.28,
+          vy: (Math.random() - 0.5) * 0.28,
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+    }
+  }
 
-  // ── Connection lines ─────────────────────────────────────────────
-  // One reusable LineSegments with a pre-allocated buffer. The previous
-  // version created a new BufferGeometry + Line per pair every few frames
-  // and never disposed them, which leaked GPU memory until the tab stalled.
-  const MAX_SEGMENTS = COUNT * 10;
-  const linePositions = new Float32Array(MAX_SEGMENTS * 6);
-  const lineGeo = new THREE.BufferGeometry();
-  const lineAttr = new THREE.BufferAttribute(linePositions, 3);
-  lineAttr.setUsage(THREE.DynamicDrawUsage);
-  lineGeo.setAttribute('position', lineAttr);
-  const lines = new THREE.LineSegments(
-    lineGeo,
-    new THREE.LineBasicMaterial({ color: 0x00D4FF, transparent: true, opacity: 0.12 })
-  );
-  lines.frustumCulled = false;
-  scene.add(lines);
+  // ── Drawing ──────────────────────────────────────────────────────
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
 
-  function buildLines() {
-    const pos = geo.attributes.position.array;
-    let seg = 0;
-    for (let i = 0; i < COUNT && seg < MAX_SEGMENTS; i++) {
-      for (let j = i + 1; j < COUNT && seg < MAX_SEGMENTS; j++) {
-        const dx = pos[i * 3] - pos[j * 3];
-        const dy = pos[i * 3 + 1] - pos[j * 3 + 1];
-        if (dx * dx + dy * dy < LINK_DIST_SQ) {   // squared compare, no sqrt
-          const o = seg * 6;
-          linePositions[o]     = pos[i * 3];
-          linePositions[o + 1] = pos[i * 3 + 1];
-          linePositions[o + 2] = pos[i * 3 + 2];
-          linePositions[o + 3] = pos[j * 3];
-          linePositions[o + 4] = pos[j * 3 + 1];
-          linePositions[o + 5] = pos[j * 3 + 2];
-          seg++;
+    // Links first so dots sit on top
+    ctx.lineWidth = 1;
+    for (let i = 0; i < particles.length; i++) {
+      const a = particles[i];
+      for (let j = i + 1; j < particles.length; j++) {
+        const b = particles[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const d2 = dx * dx + dy * dy;
+        if (d2 < linkDist * linkDist) {
+          // Fade with distance — the Three.js version used a flat 0.12,
+          // this reads slightly softer at the edges of each cluster.
+          const alpha = (1 - Math.sqrt(d2) / linkDist) * 0.18;
+          ctx.strokeStyle = `rgba(${ACCENT}, ${alpha})`;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
         }
       }
     }
-    lineGeo.setDrawRange(0, seg * 2);
-    lineAttr.needsUpdate = true;
+
+    ctx.fillStyle = `rgba(${ACCENT}, 0.8)`;
+    for (const p of particles) {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2);
+      ctx.fill();
+    }
   }
-  buildLines();
 
   // ── Animation loop ───────────────────────────────────────────────
   let frameId = null;
   let heroVisible = true;
   let tick = 0;
 
-  function animate() {
-    frameId = requestAnimationFrame(animate);
+  function step() {
+    frameId = requestAnimationFrame(step);
     tick += 0.005;
-    const pos = geo.attributes.position.array;
-    for (let i = 0; i < COUNT; i++) {
-      pos[i * 3]     += velocities[i].x + Math.sin(tick + i) * 0.01;
-      pos[i * 3 + 1] += velocities[i].y + Math.cos(tick + i) * 0.01;
-      if (Math.abs(pos[i * 3]) > 85)     velocities[i].x *= -1;
-      if (Math.abs(pos[i * 3 + 1]) > 55) velocities[i].y *= -1;
+
+    for (const p of particles) {
+      p.x += p.vx + Math.sin(tick + p.phase) * 0.06;
+      p.y += p.vy + Math.cos(tick + p.phase) * 0.06;
+
+      // Bounce off the edges with a small inset so dots don't clip
+      if (p.x < 4 || p.x > w - 4) p.vx *= -1;
+      if (p.y < 4 || p.y > h - 4) p.vy *= -1;
+      p.x = Math.max(4, Math.min(w - 4, p.x));
+      p.y = Math.max(4, Math.min(h - 4, p.y));
     }
-    geo.attributes.position.needsUpdate = true;
-    if (Math.round(tick * 200) % 6 === 0) buildLines();
-    renderer.render(scene, camera);
+
+    draw();
   }
 
-  // Guarded start/stop. Previously visibilitychange and the IntersectionObserver
-  // could each call animate(), stacking two rAF loops and doubling the speed.
-  function start() {
-    if (frameId === null && !reduceMotion) animate();
-  }
-  function stop() {
-    if (frameId !== null) { cancelAnimationFrame(frameId); frameId = null; }
-  }
+  // Guarded start/stop: the visibility listener and the IntersectionObserver
+  // can both fire, and an unguarded start would stack two rAF loops.
+  function start() { if (frameId === null && !reduceMotion) step(); }
+  function stop()  { if (frameId !== null) { cancelAnimationFrame(frameId); frameId = null; } }
+
+  resize();
 
   if (reduceMotion) {
-    renderer.render(scene, camera);   // one static frame, no loop
+    draw();                       // one static frame, no loop
   } else {
     start();
   }
@@ -144,23 +146,19 @@ export function initHero(cv) {
     if (heroVisible && !document.hidden) start(); else stop();
   }, { threshold: 0 }).observe(heroEl);
 
-  // ── Resize ───────────────────────────────────────────────────────
   // Debounced: mobile browsers fire resize continuously as the URL bar
-  // hides, and reallocating the drawing buffer each time causes jank.
+  // hides, and reallocating the backing store each time causes jank.
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      const { w, h } = size();
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h, false);
+      resize();
+      if (reduceMotion) draw();
     }, 150);
   });
 
   // ── GSAP entrance sequence ───────────────────────────────────────
   if (reduceMotion) {
-    // Skip the typewriter, show the finished text immediately
     gsap.set('.hero-eyebrow, .hero-name, .hero-title, .hero-actions', { opacity: 1 });
     nameEl.textContent = cv.name;
     titleEl.textContent = cv.subtitle;

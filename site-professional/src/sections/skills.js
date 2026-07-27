@@ -4,11 +4,16 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function initSkills(cv) {
   const section = document.querySelector('#skills .container');
+  const s = cv.skills;
   const groups = [
-    { label: 'Core Expertise', items: cv.skills.core, type: 'list' },
-    { label: 'International Standards', items: cv.skills.standards, type: 'pills' },
-    { label: 'Technical Tools', items: cv.skills.tools, type: 'pills' }
-  ];
+    { label: 'Core Expertise', items: s.core, type: 'list' },
+    { label: 'International Standards', items: s.standards, type: 'pills' },
+    {
+      label: 'OT Platforms & Assessment',
+      items: [...(s.otPlatforms || []), ...(s.assessment || []), ...(s.tools || [])],
+      type: 'pills'
+    }
+  ].filter(g => g.items && g.items.length);
 
   section.innerHTML = `
     <h2 class="section-title reveal">Skills & <span>Expertise</span></h2>

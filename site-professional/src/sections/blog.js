@@ -5,22 +5,26 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function initBlog(cv) {
   const section = document.querySelector('#blog .container');
-  const isEmpty = !cv.blog || cv.blog.length === 0;
+
+  // Same as projects: hide rather than advertise an empty section.
+  if (!cv.blog || cv.blog.length === 0) {
+    document.getElementById('blog')?.remove();
+    document.querySelector('.nav-links a[href="#blog"]')?.closest('li')?.remove();
+    return;
+  }
+
   section.innerHTML = `
     <h2 class="section-title reveal">Blog & <span>Writeups</span></h2>
     <div class="section-divider reveal"></div>
-    ${isEmpty
-      ? `<p class="reveal" style="color:var(--text-muted)">Articles coming soon.</p>`
-      : `<div class="blog-list">
-          ${cv.blog.map(b => `
-            <a href="${b.link}" class="blog-item reveal" target="_blank" rel="noopener">
-              <div class="blog-meta"><span class="blog-category">${b.category}</span><span class="blog-date">${b.date} · ${b.readTime}</span></div>
-              <h3 class="blog-title">${b.title}</h3>
-              <p class="blog-excerpt">${b.excerpt}</p>
-            </a>
-          `).join('')}
-        </div>`
-    }
+    <div class="blog-list">
+      ${cv.blog.map(b => `
+        <a href="${b.link}" class="blog-item reveal" target="_blank" rel="noopener">
+          <div class="blog-meta"><span class="blog-category">${b.category}</span><span class="blog-date">${b.date} · ${b.readTime}</span></div>
+          <h3 class="blog-title">${b.title}</h3>
+          <p class="blog-excerpt">${b.excerpt}</p>
+        </a>
+      `).join('')}
+    </div>
   `;
 
   gsap.utils.toArray('#blog .reveal').forEach(el => {

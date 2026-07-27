@@ -19,6 +19,16 @@ export function initExperience(cv) {
               <span class="timeline-period">${job.period}</span>
             </div>
             <h3 class="timeline-title">${job.title}</h3>
+            ${job.roles && job.roles.length
+              ? `<ul class="role-ladder">
+                  ${job.roles.map(r => `
+                    <li><span class="role-title">${r.title}</span><span class="role-period">${r.period}</span></li>
+                  `).join('')}
+                </ul>`
+              : job.progression
+                ? `<p class="timeline-progression">${job.progression}</p>`
+                : ''
+            }
             <p class="timeline-location">${job.location}</p>
             <ul class="timeline-highlights">
               ${job.highlights.map(h => `<li>${h}</li>`).join('')}

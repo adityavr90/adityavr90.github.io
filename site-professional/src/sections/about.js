@@ -10,7 +10,10 @@ export function initAbout(cv) {
     <div class="about-grid">
       <div class="about-avatar reveal">
         <div class="avatar-ring">
-          <div class="avatar-placeholder">AVR</div>
+          <!-- public/avatar.jpg existed but was never rendered. Falls back
+               to the initials block if the file is missing or fails to load. -->
+          <img src="/avatar.jpg" alt="${cv.name}" class="avatar-img"
+               onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'avatar-placeholder',textContent:'AVR'}))" />
         </div>
       </div>
       <div class="about-content">
