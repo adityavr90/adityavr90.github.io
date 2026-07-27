@@ -8,7 +8,7 @@ export const cv = {
     phone: '+971568804898',
     email: 'adityavr90@gmail.com',
     location: 'Dubai, United Arab Emirates',
-    linkedin: '' // add LinkedIn URL before launch
+    linkedin: 'https://www.linkedin.com/in/adityavrgk/' // add LinkedIn URL before launch
   },
   summary: 'IT/OT Cybersecurity Program Lead and OT Specialist with 10+ years of cross-functional experience at Big 4 firms (KPMG, PwC) specializing in securing large-scale Industrial Control Systems (ICS) and Operational Technology (OT). Proven track record directing multimillion-dollar security programs and risk assessments across 60+ critical infrastructure sites in the UAE/KSA.',
   stats: [
