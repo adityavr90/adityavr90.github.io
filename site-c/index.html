@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aditya Vignesh Ram — IT/OT cybersecurity program lead. 12+ years securing industrial control systems across the Gulf. IEC 62443, NIST 800-82, 60+ critical infrastructure sites." />
+  <meta name="theme-color" content="#05070D" />
+  <title>Aditya Vignesh Ram — IT/OT Security Capability Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <a href="#dossier" class="skip-link">Skip to CV content</a>
+
+  <!-- ══ Fixed chrome ══════════════════════════════════════════ -->
+  <header id="hud-top">
+    <span class="hud-id">AVR<span class="hud-dim">//</span>GK</span>
+    <span class="hud-status"><i class="pulse"></i>IT/OT SECURITY · DUBAI</span>
+    <nav class="hud-nav">
+      <a href="#map">MAP</a>
+      <a href="#dossier">DOSSIER</a>
+      <a href="#record">RECORD</a>
+      <a href="#signal">CONTACT</a>
+    </nav>
+    <button class="hud-menu" aria-label="Open menu" aria-expanded="false" aria-controls="hud-nav-mobile">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <nav class="hud-nav-mobile" id="hud-nav-mobile" hidden>
+    <a href="#map">Capability Map</a>
+    <a href="#dossier">Dossier</a>
+    <a href="#record">Record</a>
+    <a href="#signal">Contact</a>
+  </nav>
+
+  <!-- ══ 1. The graph ═══════════════════════════════════════════ -->
+  <section id="map">
+    <canvas id="graph-canvas" aria-hidden="true"></canvas>
+
+    <div class="map-frame" aria-hidden="true">
+      <span class="brk tl"></span><span class="brk tr"></span>
+      <span class="brk bl"></span><span class="brk br"></span>
+    </div>
+
+    <div class="map-intro">
+      <p class="eyebrow">Capability Map</p>
+      <h1 class="map-name"></h1>
+      <p class="map-role"></p>
+      <p class="map-hint">
+        <span class="hint-desktop">Hover a node to trace connections · click to inspect</span>
+        <span class="hint-touch">Tap any node to inspect</span>
+      </p>
+    </div>
+
+    <!-- Inspector panel, driven by node selection -->
+    <aside class="inspector" id="inspector" hidden>
+      <button class="inspector-close" aria-label="Close panel">×</button>
+      <p class="inspector-kicker"></p>
+      <h2 class="inspector-title"></h2>
+      <p class="inspector-body"></p>
+      <ul class="inspector-list"></ul>
+    </aside>
+
+    <div class="map-readout" aria-hidden="true">
+      <span data-readout="nodes">—</span>
+      <span data-readout="links">—</span>
+      <span data-readout="fps">—</span>
+    </div>
+
+    <a href="#dossier" class="scroll-cue" aria-label="Scroll to CV content">
+      <span></span>
+    </a>
+  </section>
+
+  <!-- ══ 2. Dossier: the scannable CV ═══════════════════════════ -->
+  <main>
+    <section id="dossier"><div class="wrap"></div></section>
+    <section id="record"><div class="wrap"></div></section>
+    <section id="signal"><div class="wrap"></div></section>
+  </main>
+
+  <footer id="foot">
+    <span class="mono">© <span id="year"></span> Aditya Vignesh Ram G K</span>
+    <span class="mono hud-dim">Built with intent · Dubai, UAE</span>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
