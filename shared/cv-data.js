@@ -21,7 +21,7 @@ export const cv = {
   // Tightened: dropped "proven track record" (filler) and "grid resilience"
   // (off-message — your work is oil & gas and aviation, not power).
   summary:
-    'IT/OT cybersecurity program lead with 10+ years at Big 4 firms (KPMG, PwC) securing large-scale ' +
+    'IT/OT cybersecurity program lead with 12+ years in the field, including a decade at Big 4 firms (KPMG, PwC), securing large-scale ' +
     'Industrial Control Systems across the Gulf. I direct multimillion-dollar security programs and ' +
     'risk assessments spanning 60+ critical infrastructure sites in the UAE and KSA, translating ' +
     'IEC 62443 and NIST 800-82 into regional regulatory context (UAE IA, NCA ECC) and board-level decisions.',
