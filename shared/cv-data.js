@@ -29,7 +29,7 @@ export const cv = {
   // Third stat was "2 Big 4 Firms" — number of employers isn't an achievement.
   // Replaced with standards coverage, which is verifiable from skills.standards below.
   stats: [
-    { value: 10, suffix: '+', label: 'Years Experience' },
+    { value: 12, suffix: '+', label: 'Years Experience' },
     { value: 60, suffix: '+', label: 'Sites Assessed' },
     { value: 10, suffix: '+', label: 'Standards Applied' }
   ],
