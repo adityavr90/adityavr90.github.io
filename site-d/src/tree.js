@@ -268,8 +268,12 @@ export function initTree() {
   canvas.addEventListener('pointerdown', (e) => {
     const { x, y } = local(e);
     moved = false;
-    drag = { x, y, vx: view.x, vy: view.y };
-    canvas.setPointerCapture?.(e.pointerId);
+    // Touch: a one-finger drag must scroll the page, not pan the tree,
+    // otherwise the hero traps the visitor. Panning is two-finger (below).
+    if (e.pointerType !== 'touch') {
+      drag = { x, y, vx: view.x, vy: view.y };
+      canvas.setPointerCapture?.(e.pointerId);
+    }
   });
 
   canvas.addEventListener('pointermove', (e) => {
@@ -303,7 +307,12 @@ export function initTree() {
 
   canvas.addEventListener('pointerleave', () => { drag = null; hovered = null; });
 
+  // Zoom on ctrl/cmd + wheel only. A bare wheel must scroll the page — the
+  // stage is a full viewport tall, so capturing every wheel event meant the
+  // visitor could never scroll past the hero. Trackpad pinch arrives as a
+  // wheel event with ctrlKey already set, so that keeps working natively.
   canvas.addEventListener('wheel', (e) => {
+    if (!e.ctrlKey && !e.metaKey) return;      // let the page scroll
     e.preventDefault();
     zoomAt(local(e), Math.exp(-e.deltaY * 0.0012));
   }, { passive: false });
@@ -316,11 +325,20 @@ export function initTree() {
     view.y += after.y - before.y;
   }
 
-  // Pinch zoom
+  // Two-finger gesture = pinch to zoom AND drag to pan, the standard
+  // embedded-map pattern. One finger is left alone so it scrolls the page.
+  const mid = (a, b) => {
+    const r = canvas.getBoundingClientRect();
+    return { x: (a.clientX + b.clientX) / 2 - r.left, y: (a.clientY + b.clientY) / 2 - r.top };
+  };
+
   canvas.addEventListener('touchstart', (e) => {
     if (e.touches.length === 2) {
       const [a, b] = e.touches;
-      pinch = { d: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY) };
+      pinch = {
+        d: Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY),
+        m: mid(a, b)
+      };
       drag = null;
     }
   }, { passive: true });
@@ -330,16 +348,21 @@ export function initTree() {
       e.preventDefault();
       const [a, b] = e.touches;
       const d = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY);
-      const r = canvas.getBoundingClientRect();
-      zoomAt(
-        { x: (a.clientX + b.clientX) / 2 - r.left, y: (a.clientY + b.clientY) / 2 - r.top },
-        d / pinch.d
-      );
+      const m = mid(a, b);
+
+      zoomAt(m, d / pinch.d);                       // pinch
+      view.x += (m.x - pinch.m.x) / view.k;          // pan
+      view.y += (m.y - pinch.m.y) / view.k;
+
       pinch.d = d;
+      pinch.m = m;
+      moved = true;
     }
   }, { passive: false });
 
-  canvas.addEventListener('touchend', () => { pinch = null; });
+  canvas.addEventListener('touchend', (e) => {
+    if (e.touches.length < 2) pinch = null;
+  });
 
   // Controls
   document.querySelector('[data-zoom="in"]')?.addEventListener('click', () => zoomAt({ x: w / 2, y: h / 2 }, 1.3));
