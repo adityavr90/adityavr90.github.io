@@ -8,7 +8,7 @@ gsap.registerPlugin(TextPlugin);
  *
  * Previously drawn with Three.js, which pulled ~1.3 MB of source (about
  * 170 kB gzipped) into the bundle to render dots and lines on a flat
- * plane — nothing in the scene ever used the third dimension. This is the
+ * plane. Nothing in the scene ever used the third dimension. This is the
  * same effect in plain Canvas 2D at a fraction of the weight.
  */
 export function initHero(cv) {
@@ -80,7 +80,7 @@ export function initHero(cv) {
         const dy = a.y - b.y;
         const d2 = dx * dx + dy * dy;
         if (d2 < linkDist * linkDist) {
-          // Fade with distance — the Three.js version used a flat 0.12,
+          // Fade with distance. The Three.js version used a flat 0.12,
           // this reads slightly softer at the edges of each cluster.
           const alpha = (1 - Math.sqrt(d2) / linkDist) * 0.18;
           ctx.strokeStyle = `rgba(${ACCENT}, ${alpha})`;

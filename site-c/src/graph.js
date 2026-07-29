@@ -65,7 +65,7 @@ export function initGraph(cv) {
     const cx = w / 2, cy = h / 2;
     const repel = compact ? 1400 : 2600;
 
-    // Pairwise repulsion — O(n²), but n is ~35 so this is ~600 ops/frame
+    // Pairwise repulsion, O(n²), but n is ~35 so this is ~600 ops/frame
     for (let i = 0; i < nodes.length; i++) {
       const a = nodes[i];
       for (let j = i + 1; j < nodes.length; j++) {
@@ -356,7 +356,7 @@ export function initGraph(cv) {
     rt = setTimeout(() => {
       const wasCompact = compact;
       resize();
-      // Only rebuild when crossing the compact threshold — otherwise
+      // Only rebuild when crossing the compact threshold, otherwise
       // just re-settle, so the URL bar hiding doesn't reshuffle the graph.
       if ((w < 760) !== wasCompact) { closeInspector(); build(); }
       else alpha = Math.max(alpha, 0.5);

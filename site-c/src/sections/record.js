@@ -1,5 +1,5 @@
 /**
- * Record — experience, certifications, education.
+ * Record: experience, certifications, education.
  * Rendered as a plain document: no interaction needed to read any of it.
  */
 export function initRecord(cv) {

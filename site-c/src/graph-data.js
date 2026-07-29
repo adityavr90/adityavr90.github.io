@@ -2,7 +2,7 @@
  * Derives the capability graph from the shared CV data.
  *
  * Everything here is generated from `cv` so the graph and the written
- * dossier can never drift apart — edit shared/cv-data.js and both update.
+ * dossier can never drift apart. Edit shared/cv-data.js and both update.
  */
 
 export const DOMAIN_COLORS = {
@@ -51,7 +51,7 @@ export function buildGraph(cv, { compact = false } = {}) {
     {
       key: 'lead',
       label: 'PROGRAM LEADERSHIP',
-      body: 'Running multimillion-dollar security portfolios end to end — PMO, budget, vendor delivery and the board reporting that keeps it funded.',
+      body: 'Running multimillion-dollar security portfolios end to end: PMO, budget, vendor delivery and the board reporting that keeps it funded.',
       leaves: trim([
         'PMO Delivery', 'Board Reporting', 'Budget & Resourcing',
         'Team Leadership', 'Transformation Roadmaps'
@@ -60,7 +60,7 @@ export function buildGraph(cv, { compact = false } = {}) {
     {
       key: 'grc',
       label: 'STANDARDS & GRC',
-      body: 'Translating global frameworks into Gulf regulatory context, and back again — the part most programs get wrong.',
+      body: 'Translating global frameworks into Gulf regulatory context, and back again. The part most programs get wrong.',
       leaves: trim(cv.skills.standards || [], 5)
     },
     {

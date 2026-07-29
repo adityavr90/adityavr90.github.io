@@ -1,7 +1,7 @@
 // shared/cv-data.js
 //
 // ─────────────────────────────────────────────────────────────────────────
-// TODO BEFORE PUBLISHING — items marked [NUMBER NEEDED] are placeholders.
+// TODO BEFORE PUBLISHING. Items marked [NUMBER NEEDED] are placeholders.
 // Replace them with real figures, or delete the phrase entirely. Do not
 // publish a guess. Search this file for "[NUMBER NEEDED]" to find them all.
 // ─────────────────────────────────────────────────────────────────────────
@@ -19,16 +19,16 @@ export const cv = {
   },
 
   // Tightened: dropped "proven track record" (filler) and "grid resilience"
-  // (off-message — your work is oil & gas and aviation, not power).
+  // (off-message, your work is oil & gas and aviation, not power).
   summary:
     'IT/OT cybersecurity program lead with 12+ years in the field, including a decade at Big 4 firms (KPMG, PwC), securing large-scale ' +
     'Industrial Control Systems across the Gulf. I direct multimillion-dollar security programs and ' +
     'risk assessments spanning 60+ critical infrastructure sites in the UAE and KSA, translating ' +
     'IEC 62443 and NIST 800-82 into regional regulatory context (UAE IA, NCA ECC) and board-level decisions. ' +
-    'Background spans penetration testing, cloud and DevSecOps audit, governance and strategy — breadth that ' +
+    'Background spans penetration testing, cloud and DevSecOps audit, governance and strategy. Breadth that ' +
     'matters in OT, where one person has to hold the engineering, the framework and the budget at once.',
 
-  // Third stat was "2 Big 4 Firms" — number of employers isn't an achievement.
+  // Third stat was "2 Big 4 Firms". Number of employers isn't an achievement.
   // Replaced with standards coverage, which is verifiable from skills.standards below.
   stats: [
     { value: 12, suffix: '+', label: 'Years Experience' },
@@ -41,10 +41,10 @@ export const cv = {
       title: 'IT/OT Cyber Security Manager',
       company: 'KPMG Lower Gulf',
       location: 'Dubai, UAE',
-      period: 'Sep 2022 — Present',
+      period: 'Sep 2022 – Present',
       highlights: [
         // Merged the two duplicate PMO/portfolio bullets from the PDF into one.
-        'Ran the PMO for a multimillion-dollar OT security portfolio — 10+ staff, budget and vendor delivery, 100% on-time completion',
+        'Ran the PMO for a multimillion-dollar OT security portfolio: 10+ staff, budget and vendor delivery, 100% on-time completion',
         'Directed OT security assessments across 60+ sites for the UAE\'s largest oil & gas operator, using a purpose-built Unified Control Framework',
         'Led IT/OT assessment and transformation roadmap for a major UAE air navigation entity, covering critical airport ecosystem systems',
         // [NUMBER NEEDED] How many findings? What share was remediated, over what period?
@@ -57,20 +57,20 @@ export const cv = {
       title: 'Cyber Security Manager',
       company: 'PwC Middle East',
       location: 'Dubai, UAE',
-      period: 'Sep 2015 — Sep 2022',
+      period: 'Sep 2015 – Sep 2022',
 
       // Your PDF says you progressed Associate → Manager, but the header showed
       // one title for 7 years, which reads as stagnation. This surfaces it.
       //
       // Better still: fill in the `roles` array below with your real promotion
       // dates and the site will render the full ladder instead. Uncomment and
-      // correct the dates — I've left them blank rather than guess.
+      // correct the dates. I've left them blank rather than guess.
       //
       // roles: [
-      //   { title: 'Manager',                   period: 'Mon YYYY — Sep 2022' },
-      //   { title: 'Senior Consultant',         period: 'Mon YYYY — Mon YYYY' },
-      //   { title: 'Consultant',                period: 'Mon YYYY — Mon YYYY' },
-      //   { title: 'Associate',                 period: 'Sep 2015 — Mon YYYY' }
+      //   { title: 'Manager',                   period: 'Mon YYYY – Sep 2022' },
+      //   { title: 'Senior Consultant',         period: 'Mon YYYY – Mon YYYY' },
+      //   { title: 'Consultant',                period: 'Mon YYYY – Mon YYYY' },
+      //   { title: 'Associate',                 period: 'Sep 2015 – Mon YYYY' }
       // ],
       progression: 'Progressed from Associate to Manager',
 
@@ -86,16 +86,16 @@ export const cv = {
     {
       // Added to close the gap between the "12+ years" headline and the
       // ~11 years of work the CV previously listed. This is also a genuinely
-      // strong differentiator that was missing entirely — very few OT
+      // strong differentiator that was missing entirely. Very few OT
       // consultants trained law enforcement before they trained clients.
       //
-      // [DATES NEEDED] I've used 2011 — 2013 to sit between the B.E. and the
+      // [DATES NEEDED] I've used 2011 – 2013 to sit between the B.E. and the
       // MSc. Correct these, and add the employer name if you were with a
       // training company rather than independent.
       title: 'Cybersecurity Trainer',
       company: 'Independent / Training Delivery',
       location: 'India',
-      period: '2011 — 2013',
+      period: '2011 – 2013',
       highlights: [
         'Delivered 50+ cybersecurity workshops across cities and colleges in India',
         'Ran training sessions for law enforcement cyber cells in Noida and Uttarakhand',
@@ -110,30 +110,30 @@ export const cv = {
       degree: 'MSc in Information Security',
       institution: 'Royal Holloway, University of London',
       location: 'London, UK',
-      period: '2013 — 2014',
+      period: '2013 – 2014',
       note: 'Distinction & First-Class Honours'
     },
     {
       degree: 'B.E. in Electronics & Communication Engineering',
       institution: 'Syed Ammal Engineering College, Anna University',
       location: 'Tamil Nadu, India',
-      period: '2007 — 2011'
+      period: '2007 – 2011'
     }
   ],
 
   // Split into two tiers. Listing "Getting Started in OT/ICS Pen Testing" beside
-  // CISM dragged the whole list down — vendor courses and webinars now sit in
+  // CISM dragged the whole list down. Vendor courses and webinars now sit in
   // their own block where they read as continuous learning instead of credentials.
   certifications: [
     { name: 'Certified Information Security Manager (CISM)', issuer: 'ISACA', date: 'Jun 2025', status: 'active' },
     { name: 'ISO 27001 Lead Implementer', issuer: 'BSI', date: 'Dec 2016', status: 'active' },
     { name: 'Certificate of Cloud Security Knowledge v4', issuer: 'Cloud Security Alliance', date: 'May 2022', status: 'active' },
-    // Dropped the "v7" — that version retired long ago and the label dates you
+    // Dropped the "v7". That version retired long ago and the label dates you
     // harder than the year does. Consider removing this entirely: a 15-year-old
     // CEH adds little next to CISM at manager level.
     { name: 'Certified Ethical Hacker', issuer: 'EC-Council', date: '2011', status: 'active' },
     { name: 'ISA/IEC 62443 Cybersecurity Specialist', issuer: 'ISA', date: '', status: 'in-progress' },
-    // Consider GICSP here instead of PMP — it's the credential the OT community
+    // Consider GICSP here instead of PMP. It's the credential the OT community
     // recognises, and it reinforces the specialist positioning you're leading with.
     { name: 'Project Management Professional (PMP)', issuer: 'PMI', date: 'Q1 2026', status: 'planned' }
   ],
@@ -144,7 +144,7 @@ export const cv = {
     { name: 'AI Security Governance', issuer: 'Securiti', date: 'Aug 2025' },
     { name: 'Maritime Cybersecurity Essentials', issuer: 'Northeast Maritime Institute', date: 'Aug 2023' },
     { name: 'G42 Cloud Certified Associate', issuer: 'G42', date: 'May 2021' },
-    // This was in your PDF but missing from the site — the two had drifted apart.
+    // This was in your PDF but missing from the site. The two had drifted apart.
     { name: 'Diploma in Cyber Law', issuer: 'Asian School of Cyber Laws', date: 'Jul 2012' }
   ],
 
@@ -164,7 +164,7 @@ export const cv = {
       'NIST 800-53', 'ISO 27002', 'NCA ECC', 'NCA OTCC', 'UAE IA', 'CAF'
     ],
     // Was one flat "Technical Tools" list mixing OT monitoring platforms with
-    // pentest tooling and VirtualBox (not a security tool — removed). Split so
+    // pentest tooling and VirtualBox (not a security tool, removed). Split so
     // the OT platforms lead, since that's what your positioning rests on.
     otPlatforms: ['Nozomi Networks', 'Claroty', 'Tenable/Nessus'],
     assessment: ['Wireshark', 'nmap', 'Kali Linux', 'Burp Suite', 'BloodHound']

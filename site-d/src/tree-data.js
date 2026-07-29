@@ -4,7 +4,7 @@
  * ═══════════════════════════════════════════════════════════════════
  *
  * Seven branches radiate from a central origin. Each node sits at a
- * (branch angle + offset, tier radius) polar coordinate — hand-laid like
+ * (branch angle + offset, tier radius) polar coordinate, hand-laid like
  * a real skill tree rather than force-simulated, so the shape is stable
  * and deliberate. People navigate it by remembering where things are.
  *
@@ -14,15 +14,15 @@
  *           'notable'  larger ring, something you're known for
  *           'keystone' diamond, a defining capability (one per branch)
  *
- *   state:  'allocated' lit up — you have this
- *           'progress'  pulsing — actively working on it
- *           'locked'    dim dashed — on the roadmap, not yet
+ *   state:  'allocated' lit up, you have this
+ *           'progress'  pulsing, actively working on it
+ *           'locked'    dim dashed, on the roadmap, not yet
  *
  *   tier:   1 = closest to centre, 4 = outer edge
  *   off:    angular nudge within the branch sector, roughly -1 to 1.
  *           Two nodes in the same branch AND tier must not share an off.
  *
- * Add, edit or delete nodes freely — edges are derived at runtime by
+ * Add, edit or delete nodes freely. Edges are derived at runtime by
  * linking each node to its nearest neighbour one tier inward, so the tree
  * re-wires itself and nothing needs hand-maintaining.
  * ═══════════════════════════════════════════════════════════════════
@@ -87,7 +87,7 @@ export const NODES = [
   // ─── CONTROL ─────────────────────────────────────────────────────
   { branch: 'control', tier: 1, off: -0.35, kind: 'minor', state: 'allocated',
     label: 'Electronics Eng',
-    blurb: 'Circuits and signals, four years in Tamil Nadu. At the time it felt like a detour away from security. It turned out to be the single most useful thing on my CV for OT work — I already spoke the language of the engineers I would spend a decade talking to.',
+    blurb: 'Circuits and signals, four years in Tamil Nadu. At the time it felt like a detour away from security. It turned out to be the single most useful thing on my CV for OT work. I already spoke the language of the engineers I would spend a decade talking to.',
     meta: 'B.E. · Anna University' },
 
   { branch: 'control', tier: 1, off: 0.35, kind: 'minor', state: 'allocated',
@@ -117,7 +117,7 @@ export const NODES = [
 
   { branch: 'control', tier: 3, off: 0.55, kind: 'minor', state: 'progress',
     label: 'OT Pen Testing',
-    blurb: 'Going deeper on offensive OT, safely. Testing a live plant is nothing like testing a web app — crash a PLC and something physical stops moving. The safety constraints are the interesting part.',
+    blurb: 'Going deeper on offensive OT, safely. Testing a live plant is nothing like testing a web app. Crash a PLC and something physical stops moving. The safety constraints are the interesting part.',
     meta: 'Learning now' },
 
   { branch: 'control', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
@@ -133,7 +133,7 @@ export const NODES = [
 
   { branch: 'assess', tier: 2, off: -0.45, kind: 'notable', state: 'allocated',
     label: 'Penetration Testing',
-    blurb: 'Red team work across enterprise environments during the PwC years. The discipline that keeps everything else honest — it is hard to write a confident risk rating for something you have never tried to break.',
+    blurb: 'Red team work across enterprise environments during the PwC years. The discipline that keeps everything else honest. It is hard to write a confident risk rating for something you have never tried to break.',
     meta: 'Enterprise & network' },
 
   { branch: 'assess', tier: 2, off: 0.45, kind: 'minor', state: 'allocated',
@@ -158,13 +158,13 @@ export const NODES = [
 
   { branch: 'assess', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
     label: 'FULL SPECTRUM',
-    blurb: 'Pentesting, governance, strategy, cloud audits, DevSecOps, network assessment, OT, programme management. Breadth is unfashionable advice, but in OT it is the whole job — you are the only person in the room who has to understand the PLC, the firewall, the framework and the budget at the same time.',
+    blurb: 'Pentesting, governance, strategy, cloud audits, DevSecOps, network assessment, OT, programme management. Breadth is unfashionable advice, but in OT it is the whole job: you are the only person in the room who has to understand the PLC, the firewall, the framework and the budget at the same time.',
     meta: 'Keystone · the actual advantage' },
 
   // ─── GOVERN ──────────────────────────────────────────────────────
   { branch: 'govern', tier: 1, off: 0, kind: 'minor', state: 'allocated',
     label: 'MSc Infosec',
-    blurb: 'Royal Holloway, distinction. I went to solidify a skillset I had built by curiosity and teaching, and came out with the structural half — security management, cryptography, testing, forensics. Still the best professional decision I have made.',
+    blurb: 'Royal Holloway, distinction. I went to solidify a skillset I had built by curiosity and teaching, and came out with the structural half: security management, cryptography, testing, forensics. Still the best professional decision I have made.',
     meta: 'Royal Holloway · 2014' },
 
   { branch: 'govern', tier: 2, off: -0.55, kind: 'notable', state: 'allocated',
@@ -210,7 +210,7 @@ export const NODES = [
 
   { branch: 'lead', tier: 2, off: -0.45, kind: 'notable', state: 'allocated',
     label: 'PMO Delivery',
-    blurb: 'Running a multimillion-dollar security portfolio end to end — budget, resourcing, vendors, delivery. Ten-plus staff, everything on time.',
+    blurb: 'Running a multimillion-dollar security portfolio end to end: budget, resourcing, vendors, delivery. Ten-plus staff, everything on time.',
     meta: 'KPMG · current' },
 
   { branch: 'lead', tier: 2, off: 0.45, kind: 'minor', state: 'allocated',
@@ -236,7 +236,7 @@ export const NODES = [
   // ─── BUILD ───────────────────────────────────────────────────────
   { branch: 'build', tier: 1, off: 0, kind: 'minor', state: 'allocated',
     label: 'Scripting',
-    blurb: 'Automated configuration review scripts for OT assessments — the difference between checking forty devices by hand and checking four hundred properly.',
+    blurb: 'Automated configuration review scripts for OT assessments. The difference between checking forty devices by hand and checking four hundred properly.',
     meta: 'Assessment tooling' },
 
   { branch: 'build', tier: 2, off: -0.45, kind: 'notable', state: 'allocated',
@@ -251,7 +251,7 @@ export const NODES = [
 
   { branch: 'build', tier: 3, off: -0.55, kind: 'minor', state: 'allocated',
     label: 'Assessment Tool',
-    blurb: 'A lightweight offline assessment tool. Load any control library, work through it, map evidence as you go. Every piece of evidence is stored with a hash, so integrity is provable later — which matters when a finding is challenged six months after the fact.',
+    blurb: 'A lightweight offline assessment tool. Load any control library, work through it, map evidence as you go. Every piece of evidence is stored with a hash, so integrity is provable later, which matters when a finding is challenged six months after the fact.',
     meta: 'Offline · evidence hashing' },
 
   { branch: 'build', tier: 3, off: 0, kind: 'minor', state: 'allocated',
@@ -266,7 +266,7 @@ export const NODES = [
 
   { branch: 'build', tier: 4, off: 0, kind: 'keystone', state: 'progress',
     label: 'RISK PLATFORM',
-    blurb: 'The big one. A custom cyber risk assessment and monitoring platform built to work for everyone in the chain — board members who need a position, and the analysts doing the actual work — and to scale from a small business to an enterprise. Most tools in this space pick one audience and one company size. This does not.',
+    blurb: 'The big one. A custom cyber risk assessment and monitoring platform built to work for everyone in the chain (board members who need a position, and the analysts doing the actual work) and to scale from a small business to an enterprise. Most tools in this space pick one audience and one company size. This does not.',
     meta: 'Keystone · in development' },
 
   // ─── TEACH ───────────────────────────────────────────────────────
@@ -282,7 +282,7 @@ export const NODES = [
 
   { branch: 'teach', tier: 2, off: 0.45, kind: 'minor', state: 'allocated',
     label: 'Cyber Cell Training',
-    blurb: 'Ran training sessions for the cyber cells in Noida and Uttarakhand. A very different room to a lecture hall — people who would be applying it that week, on real cases.',
+    blurb: 'Ran training sessions for the cyber cells in Noida and Uttarakhand. A very different room to a lecture hall. These were people who would be applying it that week, on real cases.',
     meta: 'Law enforcement' },
 
   { branch: 'teach', tier: 3, off: -0.45, kind: 'minor', state: 'allocated',
@@ -297,7 +297,7 @@ export const NODES = [
 
   { branch: 'teach', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
     label: 'TRAINER FIRST',
-    blurb: 'Before consulting, before the MSc, I taught. Fifty-plus workshops, police cyber cells, live cases — all before I had written a single client report. It permanently shaped how I work: if you cannot explain a risk to someone who has never heard of it, you probably do not understand it well enough yourself.',
+    blurb: 'Before consulting, before the MSc, I taught. Fifty-plus workshops, police cyber cells, live cases, all before I had written a single client report. It permanently shaped how I work: if you cannot explain a risk to someone who has never heard of it, you probably do not understand it well enough yourself.',
     meta: 'Keystone · India, pre-2013' },
 
   // ─── OFFLINE ─────────────────────────────────────────────────────

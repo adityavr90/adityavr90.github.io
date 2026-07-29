@@ -1,5 +1,5 @@
 /**
- * Dossier — the scannable half of the site.
+ * Dossier: the scannable half of the site.
  *
  * The graph is the hook; this is the part a recruiter actually reads.
  * Everything a hiring manager needs is here in plain, linear HTML with no

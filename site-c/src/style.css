@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   SITE-C — "Capability Map"
+   SITE-C: "Capability Map"
    Instrument-panel aesthetic: near-black field, four signal colours
    borrowed from OT HMI convention (cyan = nominal, amber = caution,
    violet = governance, green = verified), mono for data, grotesk for prose.
@@ -150,7 +150,7 @@ a { color: inherit; }
 
 #graph-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
-/* Corner brackets — instrument-viewport framing */
+/* Corner brackets: instrument-viewport framing */
 .map-frame { position: absolute; inset: 5.5rem var(--gutter) 3rem; pointer-events: none; }
 .brk { position: absolute; width: 18px; height: 18px; border: 1px solid rgba(0, 229, 255, 0.4); }
 .brk.tl { top: 0; left: 0; border-right: 0; border-bottom: 0; }

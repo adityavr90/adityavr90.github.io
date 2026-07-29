@@ -5,40 +5,34 @@
  * sentences. If a line makes you wince reading it aloud, cut it.
  *
  * The story below is drafted from what you've told me. Read it as a first
- * draft in your voice, not gospel — the emotional beats are my reading of
+ * draft in your voice, not gospel. The emotional beats are my reading of
  * the facts, and you should overwrite anything that isn't how it felt.
  */
 
 export const STORY = {
   title: 'How I ended up here',
   paras: [
-    "It started with watching movies and reading books based on hackers and cybersecurity. I thought it looked like the most interesting thing a person could possibly do, and went looking for how it actually worked.",
+    "It started with hacker movies and books. I went looking for how it actually worked, and the real version turned out to be less neon and considerably more interesting.",
 
-    "The real version turned out to be less neon and considerably more interesting. I studied electronics engineering — circuits, signals, four years in Tamil Nadu — and somewhere in there hit the network security modules and started properly exploring ethical hacking. That was the point it stopped being a curiosity and became the thing I was going to do.",
+    "I studied electronics engineering, hit the network security modules, and started properly exploring ethical hacking. Then, slightly unusually, I taught before I ever consulted. Fifty-plus workshops across colleges in India, training for the police cyber cells in Noida and Uttarakhand, and a hand in a few live cases. Standing in front of a room that can ask you anything does something permanent to how you explain things.",
 
-    "Then, slightly unusually, I taught before I ever consulted. Fifty-plus cybersecurity workshops across cities and colleges in India. Training sessions for the cyber cells in Noida and Uttarakhand. I helped work a handful of live cases in that period, which is a fast way to learn that the technical detail always eventually attaches to a person having a genuinely bad time. Standing in front of a room that can ask you anything also does something permanent to how you explain things — if you cannot make a risk make sense to someone who has never heard of it, you probably do not understand it well enough yourself.",
+    "An MSc at Royal Holloway gave that a spine, and I went into Big 4 consulting: seven years at PwC across pentesting, governance, cloud and DevSecOps. A few years in, a chance came up to work on OT, and the electronics degree I had half-written-off as a detour became the most useful thing on my CV. Most security people find industrial environments alien. I already spoke that language.",
 
-    "I wanted the structural half of the skillset, so I did an MSc in Information Security at Royal Holloway. Security management, cryptography, security testing, forensics. It took what I had built out of curiosity and teaching and gave it a spine.",
-
-    "From there into Big 4 consulting — IT cyber at PwC, associate up to manager over seven years. Pentesting, governance, strategy, cloud audits, DevSecOps reviews, network assessments. Then a few years in, a chance came up to work on OT cybersecurity, and that reframed everything. The electronics degree I had half-written-off as a detour was suddenly the most useful thing on my CV. Most security people find industrial environments alien. I already spoke that language, and when a plant engineer explains why they cannot patch during production, I know they are right.",
-
-    "Now it is KPMG, running OT security programmes. Sixty-plus sites for a national oil and gas operator. An air navigation authority. Chemical plants. Less hands-on-keyboard, more deciding where several million dollars of security spend should actually go.",
-
-    "The current thread is AI — how to use it in security work, how to defend against what it makes possible, and how to build AI into an enterprise without creating a new category of problem. That is what the home lab is for. I still want to build things, so I build the tools I wish existed on site, and I still spend weekends with a soldering iron. The electronics engineer never entirely went away."
+    "Now it is KPMG, running OT programmes: sixty-plus sites for a national oil and gas operator, an air navigation authority, chemical plants. The current thread is AI: how to use it, how to defend against it, how to build it into an enterprise without creating a new category of problem. That is what the home lab is for. I still want to build things, and I still spend weekends with a soldering iron."
   ]
 };
 
 export const BUILDS = {
   title: "Things I've built",
   intro:
-    "Mostly born out of frustration on site — the tool I wanted did not exist, was priced for an enterprise, " +
+    "Mostly born out of frustration on site. The tool I wanted did not exist, was priced for an enterprise, " +
     "or assumed an internet connection I did not have. So I built it.",
   items: [
     {
       name: 'Cyber risk assessment & monitoring platform',
       tags: ['AI', 'In development', 'Flagship'],
       body:
-        "The big one. Most risk platforms pick an audience — either the board or the analysts — and pick a company size, " +
+        "The big one. Most risk platforms pick an audience (either the board or the analysts) and pick a company size, " +
         "usually large. This is built to work across both. A CISO gets a defensible position, the person doing the actual " +
         "assessment gets a tool that does not fight them, and a fifty-person company can use it without an implementation project."
     },
@@ -100,7 +94,7 @@ export const NOW = {
     {
       label: 'OT/ICS penetration testing',
       body:
-        "Going deeper on the offensive side. Testing a live plant is nothing like testing a web app — get it wrong and " +
+        "Going deeper on the offensive side. Testing a live plant is nothing like testing a web app. Get it wrong and " +
         "something physical stops moving. The safety constraints are the interesting part.",
       state: 'progress'
     },
@@ -133,7 +127,7 @@ export const OFFLINE = {
     {
       label: 'Fixing my own electronics',
       body:
-        "Phones, laptops, drones. If it broke, I would rather open it than replace it — board-level work, swapping components, " +
+        "Phones, laptops, drones. If it broke, I would rather open it than replace it. Board-level work, swapping components, " +
         "occasionally rescuing something everyone else had written off. Fifteen years after the electronics degree, still the " +
         "most satisfying thing I do."
     }
@@ -144,7 +138,7 @@ export const HI = {
   title: 'Say hi',
   body:
     "Happy to talk about OT security, industrial systems, building tools, AI in security, or why your plant network is " +
-    "flatter than you think. Consulting, advisory, speaking — I did fifty-odd workshops before I did any of this " +
+    "flatter than you think. Consulting, advisory, speaking. I did fifty-odd workshops before I did any of this " +
     "professionally, so I am always up for teaching something.",
   outro: "I reply to everything that isn't a recruiter template."
 };

@@ -26,7 +26,7 @@ body {
 .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
 
 /* scroll-margin stops the fixed nav from covering headings when you
-   click a nav link — without this, every anchor lands ~70px too high. */
+   click a nav link. Without this, every anchor lands ~70px too high. */
 section { padding: 6rem 0; scroll-margin-top: 4.5rem; }
 
 /* Alternating tint gives the page some rhythm; without it the sections
@@ -147,7 +147,7 @@ button:focus-visible,
 .nav-links a:hover { color: var(--accent); }
 .nav-cta { color: var(--accent) !important; border: 1px solid var(--accent); padding: 0.4rem 1rem; border-radius: 4px; }
 
-/* Hamburger toggle — hidden on desktop, shown at <=820px */
+/* Hamburger toggle: hidden on desktop, shown at <=820px */
 .nav-toggle {
   display: none;
   width: 44px; height: 44px;
@@ -228,7 +228,7 @@ h2.section-title span { color: var(--accent); }
 .timeline-location { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem; }
 .timeline-progression { font-size: 0.85rem; color: var(--accent); margin-bottom: 0.25rem; font-weight: 600; }
 
-/* Promotion ladder — renders when a job supplies a `roles` array */
+/* Promotion ladder: renders when a job supplies a `roles` array */
 .role-ladder { list-style: none; margin: 0.5rem 0 0.75rem; display: flex; flex-direction: column; gap: 0.3rem; }
 .role-ladder li {
   display: flex; justify-content: space-between; gap: 1rem;
@@ -310,7 +310,7 @@ h2.section-title span { color: var(--accent); }
   section { padding: 4.5rem 0; }
   .container { padding: 0 1.5rem; }
 
-  /* 280px + 4rem gap doesn't fit — stack it */
+  /* 280px + 4rem gap doesn't fit, stack it */
   .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
 }
 

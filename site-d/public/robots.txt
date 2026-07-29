@@ -1,4 +1,4 @@
-# robots.txt — avrgk.com
+# robots.txt for avrgk.com
 #
 # Policy: search engines welcome, AI training crawlers denied.
 #

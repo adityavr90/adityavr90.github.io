@@ -1,11 +1,11 @@
 import { BRANCHES, NODES, ORIGIN } from './tree-data.js';
 
 /**
- * Constellation skill tree — Canvas 2D with pan and zoom.
+ * Constellation skill tree, Canvas 2D with pan and zoom.
  *
  * Layout is polar and deterministic: branch angle + tier radius. Hand-laid
  * rather than force-simulated, because a skill tree should look the same
- * every visit — people navigate it by remembering where things are.
+ * every visit. People navigate it by remembering where things are.
  */
 export function initTree() {
   const canvas = document.getElementById('tree-canvas');
@@ -307,7 +307,7 @@ export function initTree() {
 
   canvas.addEventListener('pointerleave', () => { drag = null; hovered = null; });
 
-  // Zoom on ctrl/cmd + wheel only. A bare wheel must scroll the page — the
+  // Zoom on ctrl/cmd + wheel only. A bare wheel must scroll the page. The
   // stage is a full viewport tall, so capturing every wheel event meant the
   // visitor could never scroll past the hero. Trackpad pinch arrives as a
   // wheel event with ctrlKey already set, so that keeps working natively.
