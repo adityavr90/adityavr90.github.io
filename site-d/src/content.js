@@ -12,7 +12,7 @@
 export const STORY = {
   title: 'How I ended up here',
   paras: [
-    "It started with hacking films in school. I thought it looked like the most interesting thing a person could possibly do, and went looking for how it actually worked.",
+    "It started with watching movies and reading books based on hackers and cybersecurity. I thought it looked like the most interesting thing a person could possibly do, and went looking for how it actually worked.",
 
     "The real version turned out to be less neon and considerably more interesting. I studied electronics engineering — circuits, signals, four years in Tamil Nadu — and somewhere in there hit the network security modules and started properly exploring ethical hacking. That was the point it stopped being a curiosity and became the thing I was going to do.",
 
