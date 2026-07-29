@@ -225,13 +225,13 @@ export const NODES = [
 
   { branch: 'lead', tier: 3, off: 0.45, kind: 'minor', state: 'progress',
     label: 'PMP',
-    blurb: 'Formalising the delivery side. Planned for early 2026.',
-    meta: 'PMI · planned Q1 2026' },
+    blurb: 'Formalising the delivery side. Planned for early 2027.',
+    meta: 'PMI · planned Q1 2027' },
 
   { branch: 'lead', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
-    label: 'AIR NAVIGATION',
-    blurb: 'Led the IT/OT assessment and transformation roadmap for a major UAE air navigation entity. Airport ecosystem systems, where the consequence of getting it wrong is not a data breach.',
-    meta: 'Keystone · aviation' },
+    label: 'RISK ASSESSMENT',
+    blurb: 'Led the IT/OT assessment and transformation roadmap for a several clients in the GCC. Oil & Gas, Airport ecosystem systems, where the consequence of getting it wrong is not just a data breach.',
+    meta: 'Keystone · Cyber Risks' },
 
   // ─── BUILD ───────────────────────────────────────────────────────
   { branch: 'build', tier: 1, off: 0, kind: 'minor', state: 'allocated',
