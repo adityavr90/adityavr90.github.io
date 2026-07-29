@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Aditya Vignesh Ram — industrial cybersecurity across the Gulf. Twelve years securing refineries, airports and chemical plants, plus the offline assessment tools and AI projects I build on weekends. An interactive skill tree." />
+  <meta name="theme-color" content="#080A12" />
+  <title>Aditya — Skill Tree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body>
+  <a href="#story" class="skip-link">Skip to the words</a>
+
+  <header id="bar">
+    <span class="bar-id">aditya<span class="dim">.</span></span>
+    <nav class="bar-nav">
+      <a href="#stage">Tree</a>
+      <a href="#story">Story</a>
+      <a href="#builds">Builds</a>
+      <a href="#now">Now</a>
+      <a href="#offline">Offline</a>
+      <a href="#say-hi">Say hi</a>
+    </nav>
+    <button class="bar-menu" aria-label="Open menu" aria-expanded="false" aria-controls="bar-nav-m">
+      <span></span><span></span>
+    </button>
+  </header>
+
+  <nav class="bar-nav-m" id="bar-nav-m" hidden>
+    <a href="#stage">Tree</a>
+    <a href="#story">Story</a>
+    <a href="#builds">Builds</a>
+    <a href="#now">Now</a>
+    <a href="#offline">Offline</a>
+    <a href="#say-hi">Say hi</a>
+  </nav>
+
+  <!-- ══ The tree ══════════════════════════════════════════════ -->
+  <section id="stage">
+    <canvas id="tree-canvas" tabindex="0" aria-label="Interactive skill tree. Everything here is also written out in the sections below."></canvas>
+
+    <div class="stage-intro">
+      <p class="kick">Hi, I'm Aditya</p>
+      <h1>I work on systems you<br>can't turn off and on again.</h1>
+      <p class="sub">Refineries, airports, chemical plants. Twelve years of industrial cybersecurity, mostly across the Gulf — plus the tools I build on weekends because the ones I wanted didn't exist. Here it all is, as a skill tree.</p>
+      <p class="nudge"><span class="n-desk">Drag to pan · scroll to zoom · click any node</span><span class="n-touch">Drag to explore · pinch to zoom · tap a node</span></p>
+    </div>
+
+    <aside class="node-panel" id="node-panel" hidden>
+      <button class="np-close" aria-label="Close">×</button>
+      <div class="np-top">
+        <span class="np-kicker"></span>
+        <span class="np-state"></span>
+      </div>
+      <h2 class="np-title"></h2>
+      <p class="np-blurb"></p>
+      <p class="np-meta"></p>
+    </aside>
+
+    <div class="stage-hud">
+      <span data-hud="points">—</span>
+      <span data-hud="branches">—</span>
+    </div>
+
+    <div class="stage-ctrl">
+      <button data-zoom="in" aria-label="Zoom in">+</button>
+      <button data-zoom="out" aria-label="Zoom out">−</button>
+      <button data-zoom="reset" aria-label="Reset view">⤢</button>
+    </div>
+
+    <div class="legend">
+      <span><i class="lg alloc"></i>Have it</span>
+      <span><i class="lg prog"></i>Working on it</span>
+      <span><i class="lg lock"></i>Not yet</span>
+    </div>
+  </section>
+
+  <main>
+    <section id="story"><div class="wrap"></div></section>
+    <section id="builds"><div class="wrap"></div></section>
+    <section id="now"><div class="wrap"></div></section>
+    <section id="offline"><div class="wrap"></div></section>
+    <section id="say-hi"><div class="wrap"></div></section>
+  </main>
+
+  <footer id="foot">
+    <span>Built by hand in Dubai · <span id="yr"></span></span>
+    <span class="dim">No tracking, no cookies, no newsletter popup.</span>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

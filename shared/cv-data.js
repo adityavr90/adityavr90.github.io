@@ -24,7 +24,9 @@ export const cv = {
     'IT/OT cybersecurity program lead with 12+ years in the field, including a decade at Big 4 firms (KPMG, PwC), securing large-scale ' +
     'Industrial Control Systems across the Gulf. I direct multimillion-dollar security programs and ' +
     'risk assessments spanning 60+ critical infrastructure sites in the UAE and KSA, translating ' +
-    'IEC 62443 and NIST 800-82 into regional regulatory context (UAE IA, NCA ECC) and board-level decisions.',
+    'IEC 62443 and NIST 800-82 into regional regulatory context (UAE IA, NCA ECC) and board-level decisions. ' +
+    'Background spans penetration testing, cloud and DevSecOps audit, governance and strategy — breadth that ' +
+    'matters in OT, where one person has to hold the engineering, the framework and the budget at once.',
 
   // Third stat was "2 Big 4 Firms" — number of employers isn't an achievement.
   // Replaced with standards coverage, which is verifiable from skills.standards below.
@@ -79,6 +81,26 @@ export const cv = {
         'Ran standards-based assessments for compliance with NIST 800-82 and the NIS Directive',
         // [NUMBER NEEDED] Team size mentored? Anyone you promoted?
         'Presented audit findings to senior leadership and mentored junior consultants'
+      ]
+    },
+    {
+      // Added to close the gap between the "12+ years" headline and the
+      // ~11 years of work the CV previously listed. This is also a genuinely
+      // strong differentiator that was missing entirely — very few OT
+      // consultants trained law enforcement before they trained clients.
+      //
+      // [DATES NEEDED] I've used 2011 — 2013 to sit between the B.E. and the
+      // MSc. Correct these, and add the employer name if you were with a
+      // training company rather than independent.
+      title: 'Cybersecurity Trainer',
+      company: 'Independent / Training Delivery',
+      location: 'India',
+      period: '2011 — 2013',
+      highlights: [
+        'Delivered 50+ cybersecurity workshops across cities and colleges in India',
+        'Ran training sessions for law enforcement cyber cells in Noida and Uttarakhand',
+        'Provided technical support on live cybercrime cases alongside investigating officers',
+        'Built curriculum covering network security, ethical hacking, and digital forensics'
       ]
     }
   ],
