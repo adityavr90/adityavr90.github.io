@@ -8,7 +8,7 @@ on:
 # Which site directory gets deployed. Change this one value to switch
 # between site-c, site-professional and site-bold.
 env:
-  SITE_DIR: site-c
+  SITE_DIR: site-d
 
 permissions:
   contents: read
