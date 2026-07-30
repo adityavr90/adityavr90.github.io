@@ -131,11 +131,13 @@ Disallow: /
 User-agent: PetalBot
 Disallow: /
 
-# ─── Everything else: allowed ────────────────────────────────────────
+# ─── Everything else: allowed, except the private dashboard ──────────
 # Google, Bing, DuckDuckGo and LinkedIn's link preview fall through to
 # here, so recruiters searching your name still find the site.
+# /track is the private stats dashboard: never index it. The page also
+# carries a noindex meta tag, which is the stronger signal.
 
 User-agent: *
-Disallow:
+Disallow: /track
 
 Sitemap: https://avrgk.com/sitemap.xml

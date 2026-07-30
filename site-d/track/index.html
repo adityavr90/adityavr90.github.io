@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Private page: keep every crawler out and leak nothing. -->
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <meta name="referrer" content="no-referrer" />
+  <meta name="theme-color" content="#080A12" />
+  <title>Traffic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #080A12; --raise: #0D111C; --card: #111725;
+      --line: rgba(150,170,200,0.13); --line-dim: rgba(150,170,200,0.07);
+      --cyan: #00E5FF; --violet: #A78BFA; --amber: #FFB020;
+      --green: #34D399; --rose: #F472B6; --sky: #60A5FA;
+      --text: #E9EFF7; --mid: #A3B2C7; --dim: #6C7C93;
+      --mono: 'JetBrains Mono', ui-monospace, monospace;
+      --sans: 'Space Grotesk', system-ui, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--sans); font-size: 16px; line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: inherit; }
+    :focus-visible { outline: 2px solid var(--cyan); outline-offset: 3px; border-radius: 3px; }
+
+    header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1rem 1.5rem; border-bottom: 1px solid var(--line-dim);
+    }
+    .brand { font-family: var(--mono); font-weight: 700; letter-spacing: 0.02em; }
+    .brand .dim { color: var(--dim); }
+    .backlink { font-family: var(--mono); font-size: 0.8rem; color: var(--dim); text-decoration: none; }
+    .backlink:hover { color: var(--cyan); }
+
+    .shell { max-width: 1080px; margin: 0 auto; padding: 1.5rem; }
+
+    /* ── Lock screen ─────────────────────────────── */
+    .lock {
+      max-width: 380px; margin: 14vh auto 0; text-align: center;
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: 14px; padding: 2.2rem 1.8rem;
+    }
+    .lock h1 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.35rem; }
+    .lock p  { font-size: 0.82rem; color: var(--dim); margin-bottom: 1.4rem; font-family: var(--mono); }
+    .lock input[type="password"] {
+      width: 100%; padding: 0.7rem 0.9rem; border-radius: 8px;
+      border: 1px solid var(--line); background: var(--raise); color: var(--text);
+      font-family: var(--mono); font-size: 0.95rem; margin-bottom: 0.8rem;
+    }
+    .lock button {
+      width: 100%; padding: 0.7rem; border-radius: 8px; border: none;
+      background: var(--cyan); color: #001318; font-weight: 700;
+      font-family: var(--sans); font-size: 0.95rem; cursor: pointer;
+    }
+    .lock button:disabled { opacity: 0.55; cursor: wait; }
+    .lock .err { color: var(--rose); font-size: 0.8rem; margin-top: 0.9rem; font-family: var(--mono); min-height: 1.2em; }
+
+    /* ── Dashboard ───────────────────────────────── */
+    .dash { display: none; }
+    .dash.on { display: block; }
+
+    .controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.4rem; flex-wrap: wrap; }
+    .ranges { display: flex; gap: 0.4rem; }
+    .ranges button {
+      padding: 0.35rem 0.9rem; border-radius: 999px; cursor: pointer;
+      border: 1px solid var(--line); background: transparent; color: var(--mid);
+      font-family: var(--mono); font-size: 0.78rem;
+    }
+    .ranges button.sel { background: var(--cyan); border-color: var(--cyan); color: #001318; font-weight: 700; }
+    .status { font-family: var(--mono); font-size: 0.75rem; color: var(--dim); min-height: 1.2em; }
+    .status.err { color: var(--rose); }
+
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.8rem; margin-bottom: 0.8rem; }
+    @media (max-width: 760px) { .kpis { grid-template-columns: repeat(2, 1fr); } }
+    .kpi { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1rem 1.1rem; }
+    .kpi .lbl { font-family: var(--mono); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--dim); }
+    .kpi .val { font-size: 1.6rem; font-weight: 700; margin-top: 0.2rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .kpi .val.small { font-size: 1.05rem; line-height: 2.1rem; }
+
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.1rem 1.2rem; }
+    .card.wide { grid-column: 1 / -1; }
+    .card h2 { font-size: 0.8rem; font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.08em; color: var(--mid); margin-bottom: 0.9rem; }
+    .card .empty { color: var(--dim); font-size: 0.85rem; font-family: var(--mono); }
+
+    .chart-wrap { position: relative; height: 260px; }
+
+    .rows { list-style: none; }
+    .rows li { position: relative; display: flex; justify-content: space-between; gap: 0.8rem; padding: 0.42rem 0.55rem; font-size: 0.85rem; border-radius: 6px; overflow: hidden; }
+    .rows li + li { margin-top: 0.15rem; }
+    .rows .bar { position: absolute; inset: 0; background: var(--barcolor, var(--cyan)); opacity: 0.10; border-radius: 6px; transform-origin: left; }
+    .rows .nm { position: relative; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); }
+    .rows .nm .sub { color: var(--dim); }
+    .rows .ct { position: relative; font-family: var(--mono); color: var(--mid); flex-shrink: 0; }
+
+    footer { text-align: center; padding: 2rem 0 2.5rem; font-family: var(--mono); font-size: 0.72rem; color: var(--dim); }
+  </style>
+</head>
+<body>
+  <header>
+    <span class="brand">aditya<span class="dim">.</span>traffic</span>
+    <a class="backlink" href="/">&larr; back to site</a>
+  </header>
+
+  <div class="shell">
+
+    <!-- Lock screen -->
+    <div class="lock" id="lock">
+      <h1>Private dashboard</h1>
+      <p>site statistics &middot; password required</p>
+      <form id="lock-form">
+        <input type="password" id="pw" placeholder="password" autocomplete="current-password" autofocus />
+        <button type="submit" id="unlock-btn">Unlock</button>
+      </form>
+      <div class="err" id="lock-err"></div>
+    </div>
+
+    <!-- Dashboard -->
+    <div class="dash" id="dash">
+      <div class="controls">
+        <div class="ranges" id="ranges">
+          <button data-days="7">7 days</button>
+          <button data-days="30" class="sel">30 days</button>
+          <button data-days="90">90 days</button>
+        </div>
+        <div class="status" id="status"></div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><div class="lbl">Pageviews</div><div class="val" id="k-views">&mdash;</div></div>
+        <div class="kpi"><div class="lbl">Busiest day</div><div class="val small" id="k-busy">&mdash;</div></div>
+        <div class="kpi"><div class="lbl">Top referrer</div><div class="val small" id="k-ref">&mdash;</div></div>
+        <div class="kpi"><div class="lbl">Top country</div><div class="val small" id="k-geo">&mdash;</div></div>
+      </div>
+
+      <div class="grid">
+        <div class="card wide">
+          <h2>Views over time</h2>
+          <div class="chart-wrap"><canvas id="chart"></canvas></div>
+        </div>
+        <div class="card" style="--barcolor: var(--cyan)">
+          <h2>Top pages</h2>
+          <ul class="rows" id="l-pages"><li class="empty">Loading&hellip;</li></ul>
+        </div>
+        <div class="card" style="--barcolor: var(--violet)">
+          <h2>Referrers</h2>
+          <ul class="rows" id="l-refs"><li class="empty">Loading&hellip;</li></ul>
+        </div>
+        <div class="card" style="--barcolor: var(--green)">
+          <h2>Countries</h2>
+          <ul class="rows" id="l-geo"><li class="empty">Loading&hellip;</li></ul>
+        </div>
+        <div class="card" style="--barcolor: var(--amber)">
+          <h2>Browsers</h2>
+          <ul class="rows" id="l-browsers"><li class="empty">Loading&hellip;</li></ul>
+        </div>
+        <div class="card" style="--barcolor: var(--sky)">
+          <h2>Operating systems</h2>
+          <ul class="rows" id="l-systems"><li class="empty">Loading&hellip;</li></ul>
+        </div>
+      </div>
+
+      <footer>data via GoatCounter &middot; decrypted locally, nothing leaves this browser except API calls to GoatCounter</footer>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <script>
+  (function () {
+    'use strict';
+
+    /* ══════════════════════════════════════════════════════════════
+       Security model
+       ──────────────────────────────────────────────────────────────
+       The repo is public, so nothing secret is stored in it. The
+       GoatCounter API token lives in config.json as AES-256-GCM
+       ciphertext. The password you type derives the key via PBKDF2
+       (SHA-256, 600k iterations). Wrong password → GCM auth fails →
+       nothing decrypts. The decrypted token is held in JS memory
+       only: never localStorage, never sessionStorage, never a cookie.
+       ══════════════════════════════════════════════════════════════ */
+
+    var $ = function (id) { return document.getElementById(id); };
+    var b64ToBytes = function (b64) {
+      var bin = atob(b64), out = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+      return out;
+    };
+
+    var CONFIG = null;   // loaded config.json
+    var TOKEN = null;    // decrypted API token (memory only)
+    var BASE = null;     // https://<code>.goatcounter.com
+    var chart = null;
+    var cache = {};      // per-range response cache (memory only)
+    var reqSeq = 0;      // invalidates in-flight renders on range switch
+
+    /* ── Crypto ──────────────────────────────────── */
+    async function decryptToken(password, cfg) {
+      var enc = new TextEncoder();
+      var keyMaterial = await crypto.subtle.importKey(
+        'raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+      var key = await crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt: b64ToBytes(cfg.salt), iterations: cfg.iter, hash: 'SHA-256' },
+        keyMaterial, { name: 'AES-GCM', length: 256 }, false, ['decrypt']);
+      var plain = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv: b64ToBytes(cfg.iv) }, key, b64ToBytes(cfg.ct));
+      return new TextDecoder().decode(plain);
+    }
+
+    /* ── Rate-limited sequential API client ──────────
+       GoatCounter allows ~4 req/s (token bucket) and every request
+       costs a CORS preflight too. Strictly one request in flight,
+       500ms gap from previous completion. */
+    var lastDone = 0;
+    var queue = Promise.resolve();
+    function api(path) {
+      var run = queue.then(async function () {
+        var wait = 500 - (Date.now() - lastDone);
+        if (wait > 0) await new Promise(function (r) { setTimeout(r, wait); });
+        try {
+          for (var attempt = 0; attempt < 3; attempt++) {
+            var res;
+            try {
+              res = await fetch(BASE + path, { headers: { Authorization: 'Bearer ' + TOKEN } });
+            } catch (e) { // network / stripped-CORS 429
+              if (attempt === 2) throw new Error('Network error reaching GoatCounter.');
+              await new Promise(function (r) { setTimeout(r, 800 * (attempt + 1)); });
+              continue;
+            }
+            if (res.status === 429) {
+              await new Promise(function (r) { setTimeout(r, 1200 * (attempt + 1)); });
+              continue;
+            }
+            if (res.status === 401 || res.status === 403) throw new Error('API token rejected (revoked or missing "read statistics" permission).');
+            if (!res.ok) throw new Error('GoatCounter error ' + res.status);
+            return await res.json();
+          }
+          throw new Error('Rate-limited by GoatCounter, try again shortly.');
+        } finally {
+          lastDone = Date.now();
+        }
+      });
+      // keep chain alive even on failure
+      queue = run.catch(function () {});
+      return run;
+    }
+
+    /* ── Unlock flow ─────────────────────────────── */
+    $('lock-form').addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      var err = $('lock-err');
+      var btn = $('unlock-btn');
+      err.textContent = '';
+      var pw = $('pw').value;
+      if (!pw) return;
+
+      btn.disabled = true; btn.textContent = 'Unlocking…';
+      try {
+        if (!CONFIG) {
+          var r = await fetch('config.json', { cache: 'no-store' });
+          if (!r.ok) throw new Error('nocfg');
+          CONFIG = await r.json();
+          if (!CONFIG.ct) throw new Error('nocfg');
+        }
+        TOKEN = await decryptToken(pw, CONFIG);
+        BASE = 'https://' + CONFIG.code + '.goatcounter.com';
+        $('pw').value = '';
+        $('lock').style.display = 'none';
+        $('dash').classList.add('on');
+        load(30);
+      } catch (e) {
+        if (e && e.message === 'nocfg') {
+          err.textContent = 'Not configured yet - run track-setup.html and commit config.json.';
+        } else if (e && (e.name === 'OperationError' || e instanceof DOMException)) {
+          err.textContent = 'Wrong password.';
+        } else {
+          err.textContent = e.message || 'Something went wrong.';
+        }
+      } finally {
+        btn.disabled = false; btn.textContent = 'Unlock';
+      }
+    });
+
+    /* ── Range buttons ───────────────────────────── */
+    $('ranges').addEventListener('click', function (ev) {
+      var b = ev.target.closest('button');
+      if (!b || b.classList.contains('sel')) return;
+      this.querySelectorAll('button').forEach(function (x) { x.classList.remove('sel'); });
+      b.classList.add('sel');
+      load(parseInt(b.dataset.days, 10));
+    });
+
+    /* ── Data loading ────────────────────────────── */
+    function rangeParams(days) {
+      var end = new Date();
+      var start = new Date(end.getTime() - days * 86400000);
+      return 'start=' + encodeURIComponent(start.toISOString()) +
+             '&end=' + encodeURIComponent(end.toISOString());
+    }
+
+    async function load(days) {
+      var seq = ++reqSeq;
+      var st = $('status');
+      st.classList.remove('err');
+
+      if (cache[days]) { render(cache[days], days); st.textContent = ''; return; }
+
+      var qp = rangeParams(days);
+      var steps = [
+        ['total',    '/api/v0/stats/total?' + qp],
+        ['hits',     '/api/v0/stats/hits?' + qp + '&limit=10'],
+        ['toprefs',  '/api/v0/stats/toprefs?' + qp + '&limit=10'],
+        ['locations','/api/v0/stats/locations?' + qp + '&limit=10'],
+        ['browsers', '/api/v0/stats/browsers?' + qp + '&limit=10'],
+        ['systems',  '/api/v0/stats/systems?' + qp + '&limit=10']
+      ];
+      var data = {};
+      try {
+        for (var i = 0; i < steps.length; i++) {
+          st.textContent = 'loading ' + (i + 1) + '/' + steps.length + ' …';
+          data[steps[i][0]] = await api(steps[i][1]);
+          if (seq !== reqSeq) return;        // user switched range mid-load
+          render(data, days);                 // progressive render
+        }
+        cache[days] = data;
+        st.textContent = '';
+      } catch (e) {
+        if (seq !== reqSeq) return;
+        st.classList.add('err');
+        st.textContent = e.message || 'Failed to load stats.';
+      }
+    }
+
+    /* ── Rendering ───────────────────────────────── */
+    function fmt(n) {
+      if (n == null) return '—';
+      if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
+      if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
+      return String(n);
+    }
+
+    function renderList(elId, stats, nameFn) {
+      var el = $(elId);
+      if (!stats) return;
+      if (!stats.length) { el.innerHTML = '<li class="empty">Nothing yet.</li>'; return; }
+      var max = Math.max.apply(null, stats.map(function (s) { return s.count; }).concat([1]));
+      el.innerHTML = stats.map(function (s) {
+        var name = nameFn ? nameFn(s) : (s.name || '(unknown)');
+        var pct = Math.round((s.count / max) * 100);
+        return '<li><span class="bar" style="width:' + pct + '%"></span>' +
+               '<span class="nm">' + escapeHtml(name) + '</span>' +
+               '<span class="ct">' + fmt(s.count) + '</span></li>';
+      }).join('');
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function render(data, days) {
+      if (data.total) $('k-views').textContent = fmt(data.total.total);
+
+      if (data.hits) {
+        // Per-day series: sum daily counts across the returned paths.
+        var byDay = {};
+        (data.hits.hits || []).forEach(function (h) {
+          (h.stats || []).forEach(function (d) {
+            var n = (d.daily != null && d.daily > 0)
+              ? d.daily
+              : (d.hourly || []).reduce(function (a, b) { return a + b; }, 0);
+            byDay[d.day] = (byDay[d.day] || 0) + n;
+          });
+        });
+        var daysArr = [];
+        var end = new Date();
+        for (var i = days - 1; i >= 0; i--) {
+          var d = new Date(end.getTime() - i * 86400000);
+          daysArr.push(d.toISOString().slice(0, 10));
+        }
+        var counts = daysArr.map(function (d) { return byDay[d] || 0; });
+        drawChart(daysArr, counts);
+
+        var busyIdx = counts.indexOf(Math.max.apply(null, counts));
+        if (counts[busyIdx] > 0) {
+          var bd = new Date(daysArr[busyIdx] + 'T12:00:00');
+          $('k-busy').textContent = bd.toLocaleDateString(undefined, { month: 'short', day: 'numeric' }) +
+            ' · ' + fmt(counts[busyIdx]);
+        } else {
+          $('k-busy').textContent = '—';
+        }
+
+        renderList('l-pages', (data.hits.hits || []).map(function (h) {
+          return { name: h.path + (h.title ? ' — ' + h.title : ''), count: h.count };
+        }));
+      }
+
+      if (data.toprefs) {
+        var refs = data.toprefs.stats || [];
+        renderList('l-refs', refs, function (s) { return s.name || '(direct)'; });
+        $('k-ref').textContent = refs.length ? (refs[0].name || '(direct)') : '—';
+      }
+      if (data.locations) {
+        var locs = data.locations.stats || [];
+        renderList('l-geo', locs);
+        $('k-geo').textContent = locs.length ? (locs[0].name || locs[0].id) : '—';
+      }
+      if (data.browsers) renderList('l-browsers', data.browsers.stats || []);
+      if (data.systems)  renderList('l-systems', data.systems.stats || []);
+    }
+
+    function drawChart(labels, counts) {
+      var pretty = labels.map(function (d) {
+        var dt = new Date(d + 'T12:00:00');
+        return dt.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+      });
+      if (chart) { chart.destroy(); chart = null; }
+      var ctx = $('chart').getContext('2d');
+      var grad = ctx.createLinearGradient(0, 0, 0, 260);
+      grad.addColorStop(0, 'rgba(0,229,255,0.28)');
+      grad.addColorStop(1, 'rgba(0,229,255,0)');
+      chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: pretty,
+          datasets: [{
+            data: counts, borderColor: '#00E5FF', backgroundColor: grad,
+            fill: true, tension: 0.35, pointRadius: 0, pointHitRadius: 12, borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          interaction: { intersect: false, mode: 'index' },
+          scales: {
+            x: { grid: { color: 'rgba(150,170,200,0.07)' }, ticks: { color: '#6C7C93', maxTicksLimit: 10, font: { family: "'JetBrains Mono', monospace", size: 10 } } },
+            y: { beginAtZero: true, grid: { color: 'rgba(150,170,200,0.07)' }, ticks: { color: '#6C7C93', precision: 0, font: { family: "'JetBrains Mono', monospace", size: 10 } } }
+          }
+        }
+      });
+    }
+  })();
+  </script>
+</body>
+</html>

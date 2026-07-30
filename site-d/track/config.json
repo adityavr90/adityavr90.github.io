@@ -1,0 +1,9 @@
+{
+  "v": 1,
+  "code": "avrgk",
+  "kdf": "PBKDF2-SHA256",
+  "iter": 600000,
+  "salt": "gfKhuX1/saPbKtACR2I2Lg==",
+  "iv": "aW6BiptFBi6ovKaQ",
+  "ct": "qfqnZXjr9TADBAksa1R58y/gZxFrQ/LNd0v5ghfHNVz74D0H7xhyxa1kDIqUNyZ64X10LOfACXiFZix3ZtO8SAw="
+}

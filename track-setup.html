@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Track setup — config generator (run locally)</title>
+  <style>
+    :root {
+      --bg: #080A12; --card: #111725; --raise: #0D111C;
+      --line: rgba(150,170,200,0.13); --cyan: #00E5FF; --green: #34D399;
+      --rose: #F472B6; --amber: #FFB020; --text: #E9EFF7; --mid: #A3B2C7; --dim: #6C7C93;
+      --mono: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: system-ui, sans-serif; line-height: 1.6; padding: 2rem 1rem 4rem; }
+    .wrap { max-width: 640px; margin: 0 auto; }
+    h1 { font-size: 1.3rem; margin-bottom: 0.3rem; }
+    .sub { color: var(--dim); font-size: 0.85rem; margin-bottom: 1.6rem; font-family: var(--mono); }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 1.4rem; margin-bottom: 1rem; }
+    label { display: block; font-size: 0.78rem; color: var(--mid); text-transform: uppercase; letter-spacing: 0.06em; margin: 0.9rem 0 0.25rem; }
+    label:first-child { margin-top: 0; }
+    input {
+      width: 100%; padding: 0.65rem 0.8rem; border-radius: 8px; font-size: 0.95rem;
+      border: 1px solid var(--line); background: var(--raise); color: var(--text); font-family: var(--mono);
+    }
+    .hint { font-size: 0.75rem; color: var(--dim); margin-top: 0.25rem; }
+    .warn { border-left: 3px solid var(--amber); padding: 0.6rem 0.9rem; background: rgba(255,176,32,0.06); font-size: 0.82rem; color: var(--mid); border-radius: 0 8px 8px 0; margin-top: 1rem; }
+    button {
+      margin-top: 1.2rem; width: 100%; padding: 0.75rem; border: none; border-radius: 8px;
+      background: var(--cyan); color: #001318; font-weight: 700; font-size: 0.95rem; cursor: pointer;
+    }
+    button.secondary { background: transparent; border: 1px solid var(--line); color: var(--mid); margin-top: 0.5rem; }
+    button:disabled { opacity: 0.5; cursor: wait; }
+    #out { display: none; }
+    #out.on { display: block; }
+    pre {
+      background: var(--raise); border: 1px solid var(--line); border-radius: 8px;
+      padding: 0.9rem; font-size: 0.72rem; font-family: var(--mono);
+      white-space: pre-wrap; word-break: break-all; max-height: 260px; overflow: auto;
+    }
+    .ok { color: var(--green); font-size: 0.85rem; margin-top: 0.6rem; }
+    .err { color: var(--rose); font-size: 0.85rem; margin-top: 0.6rem; }
+    ol { margin: 0.5rem 0 0 1.2rem; font-size: 0.85rem; color: var(--mid); }
+    ol li { margin-bottom: 0.35rem; }
+    code { font-family: var(--mono); color: var(--cyan); font-size: 0.82em; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Tracker config generator</h1>
+    <p class="sub">runs 100% locally &middot; nothing is sent anywhere &middot; safe to keep in the repo (contains no secrets)</p>
+
+    <div class="card">
+      <label for="code">GoatCounter site code</label>
+      <input id="code" placeholder="avrgk" spellcheck="false" autocomplete="off" />
+      <div class="hint">The subdomain you picked at signup: <code>&lt;code&gt;.goatcounter.com</code></div>
+
+      <label for="token">GoatCounter API token</label>
+      <input id="token" type="password" placeholder="paste token" autocomplete="off" />
+      <div class="hint">GoatCounter &rarr; Settings (top right) &rarr; API &rarr; New token, permission: <b>Read statistics</b> only.</div>
+
+      <label for="pw">Dashboard password</label>
+      <input id="pw" type="password" autocomplete="new-password" />
+      <label for="pw2">Repeat password</label>
+      <input id="pw2" type="password" autocomplete="new-password" />
+
+      <div class="warn">
+        The encrypted config will be public on GitHub, so anyone can attempt offline
+        guessing against it. Use a long passphrase (4+ random words or 16+ mixed
+        characters). PBKDF2 with 600,000 iterations makes each guess expensive,
+        but a weak password is still a weak password.
+      </div>
+
+      <button id="go">Generate encrypted config</button>
+      <div id="msg"></div>
+    </div>
+
+    <div class="card" id="out">
+      <b>config.json</b>
+      <pre id="json"></pre>
+      <div class="ok" id="verify"></div>
+      <button id="dl">Download config.json</button>
+      <button class="secondary" id="copy">Copy to clipboard</button>
+      <ol>
+        <li>Save as <code>site-d/public/track/config.json</code> (replace the placeholder).</li>
+        <li>Commit and push. Only ciphertext is committed &mdash; the token and password never appear in the repo.</li>
+        <li>Visit <code>avrgk.com/track/</code> and unlock with your password.</li>
+      </ol>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    'use strict';
+    var ITER = 600000;
+    var $ = function (id) { return document.getElementById(id); };
+    var result = null;
+
+    function bytesToB64(bytes) {
+      var bin = '';
+      for (var i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+      return btoa(bin);
+    }
+    function b64ToBytes(b64) {
+      var bin = atob(b64), out = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+      return out;
+    }
+
+    async function deriveKey(password, salt, usages) {
+      var enc = new TextEncoder();
+      var km = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+      return crypto.subtle.deriveKey(
+        { name: 'PBKDF2', salt: salt, iterations: ITER, hash: 'SHA-256' },
+        km, { name: 'AES-GCM', length: 256 }, false, usages);
+    }
+
+    $('go').addEventListener('click', async function () {
+      var msg = $('msg');
+      msg.className = ''; msg.textContent = '';
+      var code = $('code').value.trim().toLowerCase();
+      var token = $('token').value.trim();
+      var pw = $('pw').value;
+
+      if (!/^[a-z0-9-]+$/.test(code)) { msg.className = 'err'; msg.textContent = 'Site code should be just the subdomain, e.g. "avrgk".'; return; }
+      if (!token) { msg.className = 'err'; msg.textContent = 'Paste the API token.'; return; }
+      if (pw.length < 10) { msg.className = 'err'; msg.textContent = 'Password too short - use at least 10 characters (a passphrase is better).'; return; }
+      if (pw !== $('pw2').value) { msg.className = 'err'; msg.textContent = 'Passwords do not match.'; return; }
+
+      this.disabled = true; this.textContent = 'Encrypting…';
+      try {
+        var salt = crypto.getRandomValues(new Uint8Array(16));
+        var iv = crypto.getRandomValues(new Uint8Array(12));
+        var key = await deriveKey(pw, salt, ['encrypt']);
+        var ct = new Uint8Array(await crypto.subtle.encrypt(
+          { name: 'AES-GCM', iv: iv }, key, new TextEncoder().encode(token)));
+
+        result = {
+          v: 1,
+          code: code,
+          kdf: 'PBKDF2-SHA256',
+          iter: ITER,
+          salt: bytesToB64(salt),
+          iv: bytesToB64(iv),
+          ct: bytesToB64(ct)
+        };
+
+        // Verify roundtrip with a fresh key derivation, exactly as the dashboard will.
+        var vKey = await deriveKey(pw, b64ToBytes(result.salt), ['decrypt']);
+        var plain = new TextDecoder().decode(await crypto.subtle.decrypt(
+          { name: 'AES-GCM', iv: b64ToBytes(result.iv) }, vKey, b64ToBytes(result.ct)));
+        if (plain !== token) throw new Error('Verification failed');
+
+        $('json').textContent = JSON.stringify(result, null, 2);
+        $('verify').textContent = '✓ Verified: decrypts correctly with your password.';
+        $('out').classList.add('on');
+        $('out').scrollIntoView({ behavior: 'smooth' });
+      } catch (e) {
+        msg.className = 'err'; msg.textContent = 'Failed: ' + (e.message || e);
+      } finally {
+        this.disabled = false; this.textContent = 'Generate encrypted config';
+      }
+    });
+
+    $('dl').addEventListener('click', function () {
+      var blob = new Blob([JSON.stringify(result, null, 2) + '\n'], { type: 'application/json' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'config.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    $('copy').addEventListener('click', async function () {
+      await navigator.clipboard.writeText(JSON.stringify(result, null, 2) + '\n');
+      this.textContent = 'Copied ✓';
+      var self = this;
+      setTimeout(function () { self.textContent = 'Copy to clipboard'; }, 1500);
+    });
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+{
+  "configured": false,
+  "note": "Placeholder. Open track-setup.html (repo root) in your browser, generate the real config, and replace this file. Only AES-256-GCM ciphertext ends up here - no plaintext secrets."
+}
