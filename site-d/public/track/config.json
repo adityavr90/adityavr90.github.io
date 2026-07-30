@@ -1,4 +1,9 @@
 {
-  "configured": false,
-  "note": "Placeholder. Open track-setup.html (repo root) in your browser, generate the real config, and replace this file. Only AES-256-GCM ciphertext ends up here - no plaintext secrets."
+  "v": 1,
+  "code": "avrgk",
+  "kdf": "PBKDF2-SHA256",
+  "iter": 600000,
+  "salt": "fGNVhPF1pS18mYHaow2XyQ==",
+  "iv": "o6QyjuKo8/28q1XW",
+  "ct": "QD4mU0gXhfPsZ6ZpV2de4N/hxrF2B7wsU87rGLsHgIjgFhYufTbfFA7aqc7qEtVMgw2gxsAFkVKEw7Doq8oE3O4="
 }
