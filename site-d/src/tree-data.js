@@ -121,7 +121,7 @@ export const NODES = [
     meta: 'Learning now' },
 
   { branch: 'control', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
-    label: '60+ SITES',
+    label: '60+ Sites',
     blurb: 'Directed OT security assessments across more than sixty critical infrastructure sites for the largest oil and gas operator in the UAE, using a control framework we built for the job. Refineries, offshore platforms, terminals. The scale is the part I am proudest of.',
     meta: 'Keystone · UAE & KSA' },
 
@@ -157,7 +157,7 @@ export const NODES = [
     meta: 'Investigation' },
 
   { branch: 'assess', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
-    label: 'FULL SPECTRUM',
+    label: 'Full Spectrum',
     blurb: 'Pentesting, governance, strategy, cloud audits, DevSecOps, network assessment, OT, programme management. Breadth is unfashionable advice, but in OT it is the whole job: you are the only person in the room who has to understand the PLC, the firewall, the framework and the budget at the same time.',
     meta: 'Keystone · the actual advantage' },
 
@@ -198,7 +198,7 @@ export const NODES = [
     meta: 'ISACA · 2025' },
 
   { branch: 'govern', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
-    label: 'UNIFIED FRAMEWORK',
+    label: 'Unified Framework',
     blurb: 'Built a custom Unified Control Framework to assess sixty-plus sites consistently. Off-the-shelf frameworks each covered part of what we needed and none covered all of it, so we merged them into something that actually fit the client.',
     meta: 'Keystone · built from scratch' },
 
@@ -229,7 +229,7 @@ export const NODES = [
     meta: 'PMI · planned Q1 2027' },
 
   { branch: 'lead', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
-    label: 'RISK ASSESSMENT',
+    label: 'Risk Assessment',
     blurb: 'Led the IT/OT assessment and transformation roadmap for a several clients in the GCC. Oil & Gas, Airport ecosystem systems, where the consequence of getting it wrong is not just a data breach.',
     meta: 'Keystone · Cyber Risks' },
 
@@ -265,7 +265,7 @@ export const NODES = [
     meta: 'Observability · agents · fine-tuning' },
 
   { branch: 'build', tier: 4, off: 0, kind: 'keystone', state: 'progress',
-    label: 'RISK PLATFORM',
+    label: 'Risk Platform',
     blurb: 'The big one. A custom cyber risk assessment and monitoring platform built to work for everyone in the chain (board members who need a position, and the analysts doing the actual work) and to scale from a small business to an enterprise. Most tools in this space pick one audience and one company size. This does not.',
     meta: 'Keystone · in development' },
 
@@ -296,7 +296,7 @@ export const NODES = [
     meta: 'Team development' },
 
   { branch: 'teach', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
-    label: 'TRAINER FIRST',
+    label: 'Trainer First',
     blurb: 'Before consulting, before the MSc, I taught. Fifty-plus workshops, police cyber cells, live cases, all before I had written a single client report. It permanently shaped how I work: if you cannot explain a risk to someone who has never heard of it, you probably do not understand it well enough yourself.',
     meta: 'Keystone · India, pre-2013' },
 
@@ -322,7 +322,7 @@ export const NODES = [
     meta: 'Board-level repair' },
 
   { branch: 'offline', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
-    label: 'STILL FIXING THINGS',
+    label: 'Still Fixing Things',
     blurb: 'I trained as an electronics engineer, spent a decade moving up into programme management, and still spend weekends with a soldering iron pulling components off a board. The through-line is the same thing that makes OT security work: an interest in how physical systems actually behave, rather than how the documentation says they should.',
     meta: 'Keystone · the through-line' }
 ];

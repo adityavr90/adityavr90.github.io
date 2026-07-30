@@ -16,6 +16,8 @@
   --amber:  #FFB020;
   --green:  #34D399;
   --rose:   #F472B6;
+  --lime:   #A3E635;
+  --sky:    #60A5FA;
 
   --text: #E9EFF7;
   --mid:  #A3B2C7;
@@ -216,8 +218,20 @@ main > section { padding: 7rem 0; scroll-margin-top: 4rem; border-bottom: 1px so
 
 .sh { display: flex; align-items: center; gap: 1.2rem; margin-bottom: 3rem; }
 .sh-n { font-family: var(--mono); font-size: 0.68rem; color: var(--cyan); border: 1px solid rgba(0, 229, 255, 0.3); padding: 0.22rem 0.5rem; }
-.sh h2 { font-size: clamp(1.5rem, 2.8vw, 2rem); font-weight: 700; letter-spacing: -0.02em; }
+.sh h2 { font-size: clamp(1.5rem, 2.8vw, 2rem); font-weight: 700; letter-spacing: -0.02em; transition: color 0.2s var(--ease); }
 .sh-rule { flex: 1; height: 1px; background: var(--line); }
+
+/* Each written section borrows its accent from the matching tree branch
+   (Story stays cyan/"control" by default above), so the page reads as one
+   system instead of the tree being colourful and the prose being flat. */
+.sh--build   .sh-n { color: var(--lime); border-color: rgba(163, 230, 53, 0.3); }
+.sh--build   h2    { color: var(--lime); }
+.sh--lead    .sh-n { color: var(--amber); border-color: rgba(255, 176, 32, 0.3); }
+.sh--lead    h2    { color: var(--amber); }
+.sh--offline .sh-n { color: var(--rose); border-color: rgba(244, 114, 182, 0.3); }
+.sh--offline h2    { color: var(--rose); }
+.sh--teach   .sh-n { color: var(--sky); border-color: rgba(96, 165, 250, 0.3); }
+.sh--teach   h2    { color: var(--sky); }
 
 .lede { font-size: 1.04rem; color: var(--mid); max-width: 46rem; margin-bottom: 2.5rem; }
 .reveal { opacity: 0; }

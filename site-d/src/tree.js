@@ -17,7 +17,8 @@ export function initTree() {
   const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const coarse = matchMedia('(pointer: coarse)').matches;
 
-  const TIER_R = [0, 150, 268, 380, 500];   // radius per tier
+  const TIER_R = [0, 165, 300, 435, 580];   // radius per tier, more air outward
+                                              // where keystones/notables cluster
   // Seven branches sit 51.43° apart; a 42° sector leaves a clear gap between
   // adjacent branches so the eye can still separate them at low zoom.
   const SECTOR = 42;
@@ -236,17 +237,43 @@ export function initTree() {
         ctx.fillText('AVR', p.x, p.y + 0.5);
       }
 
-      // Labels: keystones and notables always; minors only when zoomed in
-      const show = n.kind === 'keystone' || n.kind === 'notable' ||
-                   (view.k > 0.55 && (!focus || focus.has(n.id)));
+      // Labels. The old version held keystone/notable text at ~85% size no
+      // matter how far zoomed out the view was, while node spacing kept
+      // shrinking with it — that mismatch is what piled labels on top of
+      // each other at the default view. Now everything fades and scales
+      // in together with zoom, and minors join once there's real room.
+      const zoomT = Math.min(1, Math.max(0, (view.k - 0.3) / 0.45));
+      let labelOpacity = 0;
+      if (n.kind === 'keystone') labelOpacity = 0.4 + 0.6 * zoomT;
+      else if (n.kind === 'notable') labelOpacity = 0.22 + 0.78 * zoomT;
+      else if (view.k > 0.48) labelOpacity = Math.min(1, (view.k - 0.48) / 0.22);
+
+      const show = labelOpacity > 0.02 && (!focus || focus.has(n.id));
       if (show && n.kind !== 'origin') {
-        const size = n.kind === 'keystone' ? 11.5 : n.kind === 'notable' ? 10.5 : 9.5;
-        ctx.font = `${n.kind === 'minor' ? 500 : 700} ${Math.max(8.5, size * Math.max(0.85, view.k))}px ${n.kind === 'minor' ? '"Space Grotesk", sans-serif' : '"JetBrains Mono", monospace'}`;
+        const size = n.kind === 'keystone' ? 12 : n.kind === 'notable' ? 10.5 : 9.5;
+        const fs = Math.max(7, size * Math.max(0.42, view.k));
+        ctx.font = `${n.kind === 'minor' ? 500 : 700} ${fs}px ${n.kind === 'minor' ? '"Space Grotesk", sans-serif' : '"JetBrains Mono", monospace'}`;
         ctx.textAlign = 'center'; ctx.textBaseline = 'top';
+        if (n.kind === 'keystone') ctx.letterSpacing = '0.02em';
+
+        const baseA = n.kind === 'minor' ? 0.7 : 0.95;
+        const a = (dim ? 0.15 : baseA) * labelOpacity;
+        const ty = p.y + r + 7;
+
+        // Soft dark halo behind the glyphs so a label stays readable where
+        // it crosses an edge or another node, rather than blending in —
+        // that blending was reading as "overlap" even where text didn't
+        // literally collide.
+        ctx.lineJoin = 'round';
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = `rgba(8, 10, 18, ${Math.min(0.75, a + 0.25)})`;
+        ctx.strokeText(n.label, p.x, ty);
+
         ctx.fillStyle = n.kind === 'minor'
-          ? `rgba(190, 205, 222, ${(dim ? 0.12 : 0.66)})`
-          : `rgba(${rgb}, ${dim ? 0.2 : 0.95})`;
-        ctx.fillText(n.label, p.x, p.y + r + 7);
+          ? `rgba(190, 205, 222, ${a})`
+          : `rgba(${rgb}, ${a})`;
+        ctx.fillText(n.label, p.x, ty);
+        ctx.letterSpacing = '0px';
       }
     });
   }

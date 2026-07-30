@@ -1,7 +1,10 @@
 import { STORY, BUILDS, NOW, OFFLINE, HI } from './content.js';
 
-const head = (n, title) => `
-  <header class="sh reveal">
+// `tone` ties a section's heading to the matching tree branch colour
+// (see BRANCHES in tree-data.js) so the page reads as one coloured system
+// rather than a colourful tree sitting above flat white prose headings.
+const head = (n, title, tone = 'control') => `
+  <header class="sh sh--${tone} reveal">
     <span class="sh-n">${n}</span>
     <h2>${title}</h2>
     <span class="sh-rule"></span>
@@ -10,8 +13,10 @@ const head = (n, title) => `
 
 export function initSections(cv) {
   // ── Story ───────────────────────────────────────────────────
+  // Spans every branch, so it keeps the default "control" cyan as the
+  // site's base identity colour rather than picking one arbitrarily.
   document.querySelector('#story .wrap').innerHTML = `
-    ${head('01', STORY.title)}
+    ${head('01', STORY.title, 'control')}
     <div class="prose">
       ${STORY.paras.map(p => `<p class="reveal">${p}</p>`).join('')}
     </div>
@@ -19,7 +24,7 @@ export function initSections(cv) {
 
   // ── Builds ──────────────────────────────────────────────────
   document.querySelector('#builds .wrap').innerHTML = `
-    ${head('02', BUILDS.title)}
+    ${head('02', BUILDS.title, 'build')}
     <p class="lede reveal">${BUILDS.intro}</p>
     <div class="build-grid">
       ${BUILDS.items.map(b => `
@@ -36,8 +41,10 @@ export function initSections(cv) {
   `;
 
   // ── Now ─────────────────────────────────────────────────────
+  // Amber, matching the "in progress" colour already used for the dots
+  // in this list and in the node panel elsewhere on the page.
   document.querySelector('#now .wrap').innerHTML = `
-    ${head('03', NOW.title)}
+    ${head('03', NOW.title, 'lead')}
     <p class="lede reveal">${NOW.note}</p>
     <ul class="now-list">
       ${NOW.items.map(i => `
@@ -54,7 +61,7 @@ export function initSections(cv) {
 
   // ── Offline ─────────────────────────────────────────────────
   document.querySelector('#offline .wrap').innerHTML = `
-    ${head('04', OFFLINE.title)}
+    ${head('04', OFFLINE.title, 'offline')}
     <p class="lede reveal">${OFFLINE.intro}</p>
     <div class="off-grid">
       ${OFFLINE.items.map(i => `
@@ -69,7 +76,7 @@ export function initSections(cv) {
   // ── Say hi ──────────────────────────────────────────────────
   const { email, linkedin, location } = cv.contact;
   document.querySelector('#say-hi .wrap').innerHTML = `
-    ${head('05', HI.title)}
+    ${head('05', HI.title, 'teach')}
     <p class="lede reveal hi-lede">${HI.body}</p>
     <div class="hi-row">
       <a class="btn btn-solid reveal" href="mailto:${email}">Email me</a>
