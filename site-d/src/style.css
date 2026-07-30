@@ -322,7 +322,7 @@ main > section { padding: 7rem 0; scroll-margin-top: 4rem; border-bottom: 1px so
   .stage-intro h1 { font-size: 1.7rem; }
   .stage-ctrl { bottom: 1.25rem; }
   .stage-hud { flex-direction: column; gap: 0.25rem; bottom: 1.25rem; }
-  .legend { bottom: 4.5rem; font-size: 0.55rem; gap: 0.7rem; }
+  .legend { top: auto; bottom: 4.5rem; font-size: 0.55rem; gap: 0.7rem; }
   .build-grid, .off-grid { grid-template-columns: 1fr; }
   .hi-row .btn { flex: 1; text-align: center; }
   #foot { flex-direction: column; }

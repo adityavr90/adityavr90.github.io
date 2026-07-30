@@ -22,6 +22,14 @@ export function initTree() {
   // adjacent branches so the eye can still separate them at low zoom.
   const SECTOR = 42;
 
+  // Power-on intro: nodes flash in a wave rippling out from the origin,
+  // delay proportional to radius (+ jitter so it reads as blinking lights
+  // rather than a mechanical ring). Runs once, driven off the same `t`
+  // clock as everything else, so it naturally never repeats.
+  const INTRO_SPEED = TIER_R[TIER_R.length - 1] / 1.1; // reach the rim in ~1.1s
+  const FLASH_RISE = 0.09;
+  const FLASH_FALL = 0.55;
+
   let w = 0, h = 0, dpr = 1;
   let view = { x: 0, y: 0, k: 1 };          // pan offset + zoom
   let nodes = [], edges = [];
@@ -38,7 +46,8 @@ export function initTree() {
     const origin = {
       id: 0, kind: 'origin', state: 'allocated', branch: null,
       x: 0, y: 0, r: 30,
-      label: ORIGIN.label, blurb: ORIGIN.blurb, meta: ORIGIN.meta
+      label: ORIGIN.label, blurb: ORIGIN.blurb, meta: ORIGIN.meta,
+      introDelay: Math.random() * 0.05
     };
     nodes.push(origin);
 
@@ -56,7 +65,8 @@ export function initTree() {
         x: Math.cos(angle) * radius,
         y: Math.sin(angle) * radius,
         r: n.kind === 'keystone' ? 17 : n.kind === 'notable' ? 11 : 6.5,
-        pulse: Math.random() * Math.PI * 2
+        pulse: Math.random() * Math.PI * 2,
+        introDelay: radius / INTRO_SPEED + Math.random() * 0.12
       });
     });
 
@@ -109,6 +119,17 @@ export function initTree() {
     return set;
   }
 
+  // Intensity of a node's power-on flash at the current time: a quick
+  // attack up to full brightness, then an easing fade back to its resting
+  // render. Zero before its delay, zero after it's done, zero forever if
+  // the visitor prefers reduced motion.
+  function flashOf(n) {
+    if (reduceMotion) return 0;
+    const dt = t - n.introDelay;
+    if (dt < 0 || dt > FLASH_RISE + FLASH_FALL) return 0;
+    return dt < FLASH_RISE ? dt / FLASH_RISE : 1 - (dt - FLASH_RISE) / FLASH_FALL;
+  }
+
   function draw() {
     ctx.clearRect(0, 0, w, h);
     const focus = related(selected || hovered);
@@ -131,12 +152,14 @@ export function initTree() {
       const na = byId(a), nb = byId(b);
       const lit = focus ? (focus.has(a) && focus.has(b)) : false;
       const live = nb.state === 'allocated';
+      const flash = Math.max(flashOf(na), flashOf(nb));
       let alpha = live ? 0.34 : 0.1;
       if (focus) alpha = lit ? 0.9 : 0.04;
+      alpha = Math.max(alpha, flash * 0.85);
 
       const pa = toScreen(na.x, na.y), pb = toScreen(nb.x, nb.y);
       ctx.strokeStyle = `rgba(${nb.rgb || '0, 229, 255'}, ${alpha})`;
-      ctx.lineWidth = (lit ? 2 : live ? 1.3 : 1) * Math.max(0.6, view.k);
+      ctx.lineWidth = (lit ? 2 : live ? 1.3 : 1) * Math.max(0.6, view.k) * (1 + flash * 0.6);
       ctx.setLineDash(nb.state === 'locked' ? [4 * view.k, 5 * view.k] : []);
       ctx.beginPath();
       ctx.moveTo(pa.x, pa.y);
@@ -158,18 +181,24 @@ export function initTree() {
         ? 0.55 + Math.sin(t * 2.2 + n.pulse) * 0.45
         : 1;
 
-      if (active || (n.state === 'progress' && !dim)) {
-        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 4.5);
-        g.addColorStop(0, `rgba(${rgb}, ${active ? 0.32 : 0.16 * beat})`);
+      // Power-on flash: a bright burst as the wave passes through, on top
+      // of (not instead of) whatever glow the node already has.
+      const flash = flashOf(n);
+
+      if (active || (n.state === 'progress' && !dim) || flash > 0.02) {
+        const gr = r * (4.5 + flash * 2.5);
+        const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, gr);
+        const peak = Math.max(active ? 0.32 : 0.16 * beat, flash * 0.85);
+        g.addColorStop(0, `rgba(${rgb}, ${peak})`);
         g.addColorStop(1, `rgba(${rgb}, 0)`);
         ctx.fillStyle = g;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, r * 4.5, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, gr, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      const op = dim ? 0.16 : 1;
-      ctx.lineWidth = Math.max(1, 1.6 * view.k);
+      const op = Math.min(1, (dim ? 0.16 : 1) + flash * 0.9);
+      ctx.lineWidth = Math.max(1, 1.6 * view.k) * (1 + flash * 0.5);
 
       if (n.kind === 'keystone') {
         // Diamond
