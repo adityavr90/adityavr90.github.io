@@ -84,15 +84,28 @@ a { color: inherit; }
 .bar-nav-m a { text-decoration: none; padding: 0.4rem 1rem; }
 
 /* ── The tree stage ────────────────────────────────────────── */
+/* Vertical stack: intro on top in normal flow, tree takes the rest.
+   Previously the intro was absolutely positioned over the canvas, which
+   meant the left-hand branches rendered behind the text. */
 #stage {
   position: relative;
-  height: 100vh; height: 100svh; min-height: 38rem;
+  display: flex;
+  flex-direction: column;
+  height: 100vh; height: 100svh; min-height: 40rem;
   overflow: hidden;
   border-bottom: 1px solid var(--line);
   /* Faint starfield wash so the canvas doesn't sit on flat black */
   background:
-    radial-gradient(ellipse at 50% 45%, rgba(0, 229, 255, 0.045), transparent 62%),
-    radial-gradient(ellipse at 78% 78%, rgba(167, 139, 250, 0.035), transparent 55%);
+    radial-gradient(ellipse at 50% 62%, rgba(0, 229, 255, 0.05), transparent 62%),
+    radial-gradient(ellipse at 76% 80%, rgba(167, 139, 250, 0.035), transparent 55%);
+}
+
+/* min-height: 0 lets this shrink inside the flex column instead of being
+   forced to its content height. Without it the tree overflows the section. */
+.tree-wrap {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 /* `pan-y` hands single-finger vertical drags back to the browser so the
@@ -102,12 +115,16 @@ a { color: inherit; }
 #tree-canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: pan-y; }
 
 .stage-intro {
-  position: absolute; left: var(--gut); top: 50%; transform: translateY(-50%);
-  max-width: 26rem; z-index: 2; pointer-events: none;
+  flex: 0 0 auto;
+  /* 4.5rem clears the fixed top bar */
+  padding: 4.5rem var(--gut) 0;
+  max-width: 46rem;
+  margin: 0 auto;
+  text-align: center;
 }
-.kick { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 1rem; }
-.stage-intro h1 { font-size: clamp(1.9rem, 3.6vw, 3rem); font-weight: 700; line-height: 1.08; letter-spacing: -0.025em; margin-bottom: 1.1rem; }
-.stage-intro .sub { font-size: 0.95rem; color: var(--mid); line-height: 1.65; margin-bottom: 1.6rem; }
+.kick { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cyan); margin-bottom: 0.85rem; }
+.stage-intro h1 { font-size: clamp(1.6rem, 3.2vw, 2.6rem); font-weight: 700; line-height: 1.12; letter-spacing: -0.025em; margin-bottom: 0.9rem; text-wrap: balance; }
+.stage-intro .sub { font-size: 0.92rem; color: var(--mid); line-height: 1.6; margin-bottom: 1.1rem; }
 .nudge { font-family: var(--mono); font-size: 0.66rem; color: var(--dim); letter-spacing: 0.06em; }
 .n-touch { display: none; }
 .nudge kbd {
@@ -156,8 +173,9 @@ a { color: inherit; }
 }
 .stage-ctrl button:hover { border-color: var(--cyan); color: var(--cyan); }
 
+/* Now anchored to the top of the tree area, not below the fixed bar */
 .legend {
-  position: absolute; right: var(--gut); top: 5.5rem;
+  position: absolute; right: var(--gut); top: 0.5rem;
   display: flex; flex-direction: column; gap: 0.45rem;
   font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.1em; color: var(--dim);
   pointer-events: none;
@@ -272,16 +290,17 @@ main > section { padding: 7rem 0; scroll-margin-top: 4rem; border-bottom: 1px so
   .n-desk { display: none; }
   .n-touch { display: inline; }
 
-  /* Intro moves to the top so the tree gets the lower two-thirds */
-  .stage-intro {
-    top: 5.5rem; transform: none; left: var(--gut); right: var(--gut);
-    max-width: none;
-    background: linear-gradient(rgba(8, 10, 18, 0.9), rgba(8, 10, 18, 0));
-    padding-bottom: 1.5rem;
-  }
-  .stage-intro .sub { font-size: 0.9rem; }
-  .legend { top: auto; bottom: 5.5rem; left: var(--gut); right: auto; flex-direction: row; gap: 1rem; }
-  .stage-hud { bottom: 2rem; }
+  /* The section grows past the viewport on mobile: the intro needs its full
+     height, and squeezing the tree into what's left makes it unreadable.
+     A guaranteed 60svh for the tree is better than a cramped fit. */
+  #stage { height: auto; min-height: 0; }
+  .tree-wrap { flex: 0 0 auto; height: 60svh; min-height: 22rem; }
+
+  .stage-intro { padding: 5rem var(--gut) 1.25rem; text-align: left; }
+  .stage-intro .sub { font-size: 0.88rem; }
+
+  .legend { top: 0.4rem; right: var(--gut); flex-direction: row; gap: 0.9rem; }
+  .stage-hud { bottom: 1.25rem; }
   /* Would collide with the legend and controls on a narrow screen */
   .scroll-cue { display: none; }
 

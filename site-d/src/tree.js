@@ -90,10 +90,9 @@ export function initTree() {
     view.k = Math.min(w, h) / (maxR * 2);
     view.k = Math.max(0.22, Math.min(view.k, 1.1));
 
-    // On wide screens the intro copy occupies the left third, so bias the
-    // tree to the right rather than letting the TEACH and OFFLINE branches
-    // sit behind the text.
-    view.x = w >= 1100 ? -(w * 0.13) / view.k : 0;
+    // The intro now sits above the tree rather than over it, so the tree
+    // gets the full width of its own box and needs no horizontal bias.
+    view.x = 0;
     view.y = 0;
   }
 

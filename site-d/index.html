@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Aditya Vignesh Ram. I work on systems you can't turn off and on again. Twelve years of industrial cybersecurity across the Gulf, spent between the control room and the board table, plus the offline assessment tools and AI projects I build on weekends." />
   <meta name="theme-color" content="#080A12" />
-  <title>Aditya | Skill Tree</title>
+  <title>Aditya Vignesh Ram | Profile</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -40,47 +40,53 @@
 
   <!-- ══ The tree ══════════════════════════════════════════════ -->
   <section id="stage">
-    <canvas id="tree-canvas" tabindex="0" aria-label="Interactive skill tree. Everything here is also written out in the sections below."></canvas>
-
+    <!-- Intro sits in normal flow ABOVE the tree so the two never overlap. -->
     <div class="stage-intro">
       <p class="kick">Hi, I'm Aditya</p>
-      <h1>I work on systems you<br>can't turn off and on again.</h1>
+      <h1>Translating Tomorrow's Threats <br>Into Today's Security Decisions.</h1>
       <p class="sub">Refineries, airports, chemical plants. Twelve years spent between the control room and the board table. Engineer enough for the plant floor, plain enough for the people funding it. Plus the tools I build on weekends because the ones I wanted didn't exist.</p>
       <p class="nudge"><span class="n-desk">Click a node · drag to pan · <kbd>Ctrl</kbd>+scroll to zoom</span><span class="n-touch">Tap a node · two fingers to move and zoom</span></p>
     </div>
 
-    <aside class="node-panel" id="node-panel" hidden>
-      <button class="np-close" aria-label="Close">×</button>
-      <div class="np-top">
-        <span class="np-kicker"></span>
-        <span class="np-state"></span>
+    <!-- Everything canvas-related is scoped to this box, which takes the
+         remaining height. The overlay chrome now positions against the tree
+         area rather than the whole section. -->
+    <div class="tree-wrap">
+      <canvas id="tree-canvas" tabindex="0" aria-label="Interactive skill tree. Everything here is also written out in the sections below."></canvas>
+
+      <aside class="node-panel" id="node-panel" hidden>
+        <button class="np-close" aria-label="Close">×</button>
+        <div class="np-top">
+          <span class="np-kicker"></span>
+          <span class="np-state"></span>
+        </div>
+        <h2 class="np-title"></h2>
+        <p class="np-blurb"></p>
+        <p class="np-meta"></p>
+      </aside>
+
+      <div class="legend">
+        <span><i class="lg alloc"></i>Have it</span>
+        <span><i class="lg prog"></i>Working on it</span>
+        <span><i class="lg lock"></i>Not yet</span>
       </div>
-      <h2 class="np-title"></h2>
-      <p class="np-blurb"></p>
-      <p class="np-meta"></p>
-    </aside>
 
-    <div class="stage-hud">
-      <span data-hud="points">···</span>
-      <span data-hud="branches">···</span>
+      <div class="stage-hud">
+        <span data-hud="points">···</span>
+        <span data-hud="branches">···</span>
+      </div>
+
+      <div class="stage-ctrl">
+        <button data-zoom="in" aria-label="Zoom in">+</button>
+        <button data-zoom="out" aria-label="Zoom out">−</button>
+        <button data-zoom="reset" aria-label="Reset view">⤢</button>
+      </div>
+
+      <a href="#story" class="scroll-cue" aria-label="Scroll to the story">
+        <span class="sc-txt">Keep scrolling</span>
+        <span class="sc-dot"></span>
+      </a>
     </div>
-
-    <div class="stage-ctrl">
-      <button data-zoom="in" aria-label="Zoom in">+</button>
-      <button data-zoom="out" aria-label="Zoom out">−</button>
-      <button data-zoom="reset" aria-label="Reset view">⤢</button>
-    </div>
-
-    <div class="legend">
-      <span><i class="lg alloc"></i>Have it</span>
-      <span><i class="lg prog"></i>Working on it</span>
-      <span><i class="lg lock"></i>Not yet</span>
-    </div>
-
-    <a href="#story" class="scroll-cue" aria-label="Scroll to the story">
-      <span class="sc-txt">Keep scrolling</span>
-      <span class="sc-dot"></span>
-    </a>
   </section>
 
   <main>
