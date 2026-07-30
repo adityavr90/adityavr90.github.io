@@ -18,7 +18,7 @@ export const STORY = {
 
     "An MSc at Royal Holloway gave that a spine, and I went into Big 4 consulting: seven years at PwC across pentesting, governance, cloud and DevSecOps. A few years in, a chance came up to work on OT, and the electronics degree I had half-written-off as a detour became the most useful thing on my CV. Most security people find industrial environments alien. I already spoke that language.",
 
-    "Now it is KPMG, running OT programmes: sixty-plus sites for a national oil and gas operator, an air navigation authority, chemical plants. The current thread is AI: how to use it, how to defend against it, how to build it into an enterprise without creating a new category of problem. That is what the home lab is for. I still want to build things, and I still spend weekends with a soldering iron."
+    "Now it is KPMG, running OT programmes: large scale risk assessments for a national oil and gas operator, an air navigation authority, chemical plants. The current thread is AI: how to use it, how to defend against it, how to build it into an enterprise without creating a new category of problem. That is what the home lab is for. I still want to build things, and I still spend weekends with a soldering iron."
   ]
 };
 

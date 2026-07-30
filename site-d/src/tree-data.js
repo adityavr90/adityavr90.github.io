@@ -103,26 +103,31 @@ export const NODES = [
   { branch: 'control', tier: 2, off: 0.45, kind: 'minor', state: 'allocated',
     label: 'NIST 800-82',
     blurb: 'The other reference everyone reaches for. Strong on risk framing, lighter on engineering detail than 62443.',
-    meta: 'Applied across 60+ sites' },
+    meta: 'Applied in the field' },
 
-  { branch: 'control', tier: 3, off: -0.55, kind: 'minor', state: 'allocated',
+  { branch: 'control', tier: 3, off: -0.7, kind: 'minor', state: 'allocated',
     label: 'Purdue Model',
     blurb: 'The layered reference architecture every OT conversation eventually returns to. Levels 0 to 5, and the DMZ that everyone draws and almost nobody implements properly.',
     meta: 'L0 → L5' },
 
-  { branch: 'control', tier: 3, off: 0, kind: 'minor', state: 'allocated',
+  { branch: 'control', tier: 3, off: -0.25, kind: 'minor', state: 'allocated',
     label: 'Nozomi · Claroty',
     blurb: 'Passive OT monitoring platforms. Deployed, tuned, and occasionally defended to sceptical plant managers who did not want another box on their network.',
     meta: 'Detection & asset discovery' },
 
-  { branch: 'control', tier: 3, off: 0.55, kind: 'minor', state: 'progress',
+  { branch: 'control', tier: 3, off: 0.25, kind: 'minor', state: 'allocated',
+    label: 'Vessel OT',
+    blurb: 'OT security assessments aboard vessels. Navigation, cargo and engine control systems: essentially a plant that moves, connected to shore over links you do not control. Same discipline as a refinery, tighter constraints.',
+    meta: 'Maritime OT' },
+
+  { branch: 'control', tier: 3, off: 0.7, kind: 'minor', state: 'progress',
     label: 'OT Pen Testing',
     blurb: 'Going deeper on offensive OT, safely. Testing a live plant is nothing like testing a web app. Crash a PLC and something physical stops moving. The safety constraints are the interesting part.',
     meta: 'Learning now' },
 
   { branch: 'control', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
-    label: '60+ Sites',
-    blurb: 'Directed OT security assessments across more than sixty critical infrastructure sites for the largest oil and gas operator in the UAE, using a control framework we built for the job. Refineries, offshore platforms, terminals. The scale is the part I am proudest of.',
+    label: 'Securing Operations',
+    blurb: 'Helping critical infrastructure operators secure the environments they depend on: refineries, offshore platforms, terminals, airports, vessels. Finding the gaps, building the remediation roadmap, and staying involved until the fixes are real rather than just reported.',
     meta: 'Keystone · UAE & KSA' },
 
   // ─── ASSESS ──────────────────────────────────────────────────────
@@ -131,27 +136,37 @@ export const NODES = [
     blurb: 'Where the whole thing actually started. Network security modules during my undergrad turned into evenings spent working out how any of it could be broken.',
     meta: 'Undergrad onwards' },
 
-  { branch: 'assess', tier: 2, off: -0.45, kind: 'notable', state: 'allocated',
+  { branch: 'assess', tier: 2, off: -0.55, kind: 'notable', state: 'allocated',
     label: 'Penetration Testing',
     blurb: 'Red team work across enterprise environments during the PwC years. The discipline that keeps everything else honest. It is hard to write a confident risk rating for something you have never tried to break.',
     meta: 'Enterprise & network' },
 
-  { branch: 'assess', tier: 2, off: 0.45, kind: 'minor', state: 'allocated',
+  { branch: 'assess', tier: 2, off: 0, kind: 'minor', state: 'allocated',
+    label: 'Cybersecurity Audits',
+    blurb: 'Full-scope cybersecurity audits against the standards clients are held to. A different discipline from pentesting: less about breaking in, more about proving whether the controls on paper actually exist in practice.',
+    meta: 'IT & OT estates' },
+
+  { branch: 'assess', tier: 2, off: 0.55, kind: 'minor', state: 'allocated',
     label: 'Network Assessment',
     blurb: 'Segmentation that exists on the diagram but not on the wire. Almost every estate I have looked at is flatter than its owners believe.',
     meta: 'Architecture review' },
 
-  { branch: 'assess', tier: 3, off: -0.55, kind: 'minor', state: 'allocated',
+  { branch: 'assess', tier: 3, off: -0.75, kind: 'minor', state: 'allocated',
     label: 'Cloud Audits',
     blurb: 'CCSK-certified and applied in anger. Cloud reintroduced every misconfiguration problem we had solved on-premise, with a faster deployment pipeline attached.',
     meta: 'CCSK · CSA' },
 
-  { branch: 'assess', tier: 3, off: 0, kind: 'minor', state: 'allocated',
+  { branch: 'assess', tier: 3, off: -0.25, kind: 'minor', state: 'allocated',
     label: 'DevSecOps Audits',
     blurb: 'Reviewing pipelines rather than the things they deploy. Where security either becomes automatic or becomes a ticket everybody ignores.',
     meta: 'Pipeline security' },
 
-  { branch: 'assess', tier: 3, off: 0.55, kind: 'minor', state: 'allocated',
+  { branch: 'assess', tier: 3, off: 0.25, kind: 'notable', state: 'allocated',
+    label: 'Risk Assessments',
+    blurb: 'Cybersecurity risk assessments across IT and OT estates: threat scenarios, consequence, likelihood, and a risk register the client can actually act on. The bridge between a technical finding and a funding decision.',
+    meta: 'IT & OT' },
+
+  { branch: 'assess', tier: 3, off: 0.75, kind: 'minor', state: 'allocated',
     label: 'Forensics',
     blurb: 'From the Royal Holloway MSc, and put to use during the case work in India. Reconstructing what happened from what got left behind.',
     meta: 'Investigation' },
@@ -182,24 +197,29 @@ export const NODES = [
     blurb: 'Formally, from the MSc. Mostly useful now for knowing when a vendor is overstating what their encryption actually protects.',
     meta: 'Royal Holloway' },
 
-  { branch: 'govern', tier: 3, off: -0.55, kind: 'minor', state: 'allocated',
+  { branch: 'govern', tier: 3, off: -0.7, kind: 'minor', state: 'allocated',
     label: 'NCA ECC / OTCC',
     blurb: 'Saudi regulatory frameworks. Working across the Gulf means knowing where the global standards stop and the national ones take over.',
     meta: 'KSA' },
 
-  { branch: 'govern', tier: 3, off: 0, kind: 'minor', state: 'allocated',
+  { branch: 'govern', tier: 3, off: -0.25, kind: 'minor', state: 'allocated',
     label: 'UAE IA',
     blurb: 'The UAE Information Assurance standard. Same job as ECC, different jurisdiction, subtly different expectations.',
     meta: 'UAE' },
 
-  { branch: 'govern', tier: 3, off: 0.55, kind: 'minor', state: 'allocated',
+  { branch: 'govern', tier: 3, off: 0.25, kind: 'minor', state: 'allocated',
+    label: 'Policies & Procedures',
+    blurb: 'Writing the security policies, procedures and control frameworks that clients run on after the engagement ends. The unglamorous half of governance: documents people actually follow, rather than shelfware that exists to pass an audit.',
+    meta: 'Policy → procedure → control' },
+
+  { branch: 'govern', tier: 3, off: 0.7, kind: 'minor', state: 'allocated',
     label: 'CISM',
     blurb: 'ISACA certification, 2025. The management-side counterpart to the technical work.',
     meta: 'ISACA · 2025' },
 
   { branch: 'govern', tier: 4, off: 0, kind: 'keystone', state: 'allocated',
     label: 'Unified Framework',
-    blurb: 'Built a custom Unified Control Framework to assess sixty-plus sites consistently. Off-the-shelf frameworks each covered part of what we needed and none covered all of it, so we merged them into something that actually fit the client.',
+    blurb: 'Built a custom Unified Control Framework to assess client environments consistently across an entire estate. Off-the-shelf frameworks each covered part of what we needed and none covered all of it, so we merged them into something that actually fit the client.',
     meta: 'Keystone · built from scratch' },
 
   // ─── LEAD ────────────────────────────────────────────────────────
@@ -271,8 +291,8 @@ export const NODES = [
 
   // ─── TEACH ───────────────────────────────────────────────────────
   { branch: 'teach', tier: 1, off: 0, kind: 'minor', state: 'allocated',
-    label: 'Hacker Films',
-    blurb: 'The honest origin story. I watched the films in school, thought it looked like the most interesting thing a person could possibly do, and went looking for how it actually worked. Reality turned out to be less neon and more interesting.',
+    label: 'Hackers from Movies',
+    blurb: 'The honest origin story. I watched hackers in the movies at school, thought it looked like the most interesting thing a person could possibly do, and went looking for how it actually worked. Reality turned out to be less neon and more interesting.',
     meta: 'Where it started' },
 
   { branch: 'teach', tier: 2, off: -0.45, kind: 'notable', state: 'allocated',
